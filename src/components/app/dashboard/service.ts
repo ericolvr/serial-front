@@ -1,7 +1,6 @@
 import axios from 'axios';
-const BASE_URL = "http://192.168.0.12:8888"
-const RASP_URL = "http://192.168.0.12:7878"
-// process.env.REACT_APP_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_URL;
+const RASP_URL = import.meta.env.VITE_RASP_URL;
 
 
 class ApiDashboard {
