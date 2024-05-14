@@ -1,10 +1,4 @@
 import { useContext } from "react";
-// import {
-//     Breadcrumb,
-//     BreadcrumbItem,
-//     BreadcrumbList,
-//     BreadcrumbPage,
-// } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { RotateCw } from "lucide-react";
 import { AuthContext } from "@/contexts/general";
@@ -17,7 +11,7 @@ import { TabClients } from "@/components/app/dashboard/tabs";
 
 export function Dashboard() {   
     const { opened } = useContext(AuthContext);
-    
+
     return (
         <div className="flex">
             <Sidebar />
