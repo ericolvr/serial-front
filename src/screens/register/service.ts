@@ -1,11 +1,9 @@
 import axios from 'axios';
-const BASE_URL = "http://192.168.0.12:8888"
-// process.env.REACT_APP_BASE_URL;
+const BASE_URL = import .meta.env.VITE_API_URL;
 
 
 class ApiRegister {
     static async Insert({ data }: { data: any }) {
-        console.log(data), 'REGISTER ADD';
         try {
             const response = await axios.post(`${BASE_URL}/registers`, data);
             if (response.status === 201) {
