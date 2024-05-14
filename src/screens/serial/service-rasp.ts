@@ -1,5 +1,5 @@
 import axios from 'axios';
-// const BASE_URL = "http://192.168.0.12:7878"
+const BASE_URL = import .meta.env.VITE_RASP_URL;
 
 
 
@@ -8,7 +8,7 @@ class ApiSucrilhos {
         const start = 537
         const end = 549
         try {
-            const response = await axios.get(`http://localhost:7878/serial/read-range?start=${start}&end=${end}`);
+            const response = await axios.get(`${BASE_URL}/serial/read-range?start=${start}&end=${end}`);
             if (response.status === 200) {
                 return response.data;
             }
