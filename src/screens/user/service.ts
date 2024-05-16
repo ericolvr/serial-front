@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = "http://192.168.0.12:8888"
+const BASE_URL = "http://192.168.2.26:8888"
 // process.env.REACT_APP_BASE_URL;
 
 
