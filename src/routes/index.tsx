@@ -11,13 +11,14 @@ import { UserAdd } from '@/screens/user/add';
 import { UserList } from '@/screens/user/list';
 import { RegisterAdd } from '@/screens/register/add';
 import { RegisterList } from '@/screens/register/list';
-
+import { SignIn } from '@/screens/signin';
 
 
 export const AppRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/login" element={<SignIn />} />         
                 <Route path="/" element={<Dashboard />} />         
                 <Route path="/serial/add" element={<SerialAdd />} />
                 <Route path="/serial" element={<SerialList />} />

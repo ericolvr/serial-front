@@ -38,7 +38,7 @@ export function Sidebar() {
             <div className="px-6 pt-9">
                 <ul>
                     <Link to="/" className="group">
-                        <li className="flex justify-start items-center font-mono subpixel-antialiased p-4 group-hover:bg-[#1A1C1E] transition-colors duration-600 rounded-md mb-2">
+                        <li className="flex justify-start items-center font-mono subpixel-antialiased p-4 group-hover:bg-[#1A1C1E] ? rounded-md mb-2">
                             <Gauge strokeWidth={2} className={opened ? "w-6 h-6 text[#1A1C1E] group-hover:text-white transition-colors duration-700" : "w-7 h-7 text[#1A1C1E] group-hover:text-white transition-colors duration-600"} />
                             <p className={ opened ? "pl-8 text-md text-black group-hover:text-white transition-colors duration-600" : "hidden"}>Dashboard</p>
                         </li>
