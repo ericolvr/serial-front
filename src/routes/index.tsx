@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { Fragment, useContext, useEffect } from 'react';
+import { BrowserRouter, Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { Dashboard } from '../screens/dashboard';
 import { SerialAdd } from '../screens/serial/add';
 import { SerialList } from '../screens/serial/list';
@@ -16,39 +16,35 @@ import { RegisterResults } from '@/screens/register/results';
 import { SignIn } from '@/screens/signin';
 import { AuthContext } from '@/contexts/general';
 
+
 export const AppRoutes = () => {
-    const { authenticated }: { authenticated: boolean } = useContext(AuthContext);
+    const { authenticated } = useContext(AuthContext);
 
     return (
         <BrowserRouter>
-            {authenticated ? (
-                <Navigate to="/dashboard" replace />
-            ) : (
-                <Navigate to="/" replace />
-            )}
-
             <Routes>
                 <Route path="/" element={<SignIn />} />         
-                <Route path="/dashboard" element={<Dashboard />} />         
-                <Route path="/serial/add" element={<SerialAdd />} />
-                <Route path="/serial" element={<SerialList />} />
-                <Route path="/serial/edit/:id" element={<SerialEdit />} />
-                <Route path="/client/add" element={<ClientAdd />} />
-                <Route path="/client" element={<ClientList />} />
-                <Route path="/branch" element={<BranchSelect />} />
-                <Route path="/branch/list/:client" element={<BranchList />} />
-                <Route path="/user/add/" element={<UserAdd />} />
-                <Route path="/user" element={<UserList />} />
+                <Route path="/dashboard" element={authenticated ? <Dashboard /> : <SignIn />} />        
+                <Route path="/serial/add" element={authenticated ? <SerialAdd /> : <SignIn />} />
+                <Route path="/serial" element={authenticated ? <SerialList /> : <SignIn />} />
+                <Route path="/serial/edit/:id" element={authenticated ? <SerialEdit /> : <SignIn />} />
+                <Route path="/client/add" element={authenticated ? <ClientAdd /> : <SignIn />} />
+                <Route path="/client" element={authenticated ? <ClientList /> : <SignIn />} />
+                <Route path="/branch" element={authenticated ? <BranchSelect /> : <SignIn />} />
+                <Route path="/branch/list/:client" element={authenticated ? <BranchList /> : <SignIn />} />
+                <Route path="/user/add/" element={authenticated ? <UserAdd /> : <SignIn />} />
+                <Route path="/user" element={authenticated ? <UserList /> : <SignIn />} />
                 <Route path="/register/add" element={<RegisterAdd />} />
-                <Route path="/register" element={<RegisterList />} />
-                <Route path="/register/results" element={<RegisterResults />} />
+                <Route path="/register" element={authenticated ? <RegisterList /> : <SignIn />} />
+                <Route path="/register/results" element={authenticated ? <RegisterResults /> : <SignIn />} />
             </Routes>
         </BrowserRouter>
     )
 }
 
-// import { Fragment, useContext, useEffect } from 'react';
-// import { BrowserRouter, Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+
+// import { useContext } from 'react';
+// import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 // import { Dashboard } from '../screens/dashboard';
 // import { SerialAdd } from '../screens/serial/add';
 // import { SerialList } from '../screens/serial/list';
@@ -65,15 +61,20 @@ export const AppRoutes = () => {
 // import { SignIn } from '@/screens/signin';
 // import { AuthContext } from '@/contexts/general';
 
-
 // export const AppRoutes = () => {
-//     const { authenticated } = useContext(AuthContext);
+//     const { authenticated }: { authenticated: boolean } = useContext(AuthContext);
 
 //     return (
 //         <BrowserRouter>
+//             {authenticated ? (
+//                 <Navigate to="/dashboard" replace />
+//             ) : (
+//                 <Navigate to="/" replace />
+//             )}
+
 //             <Routes>
-//                 <Route path="/login" element={<SignIn />} />         
-//                 <Route path="/" element={<Dashboard />} />         
+//                 <Route path="/" element={<SignIn />} />         
+//                 <Route path="/dashboard" element={<Dashboard />} />         
 //                 <Route path="/serial/add" element={<SerialAdd />} />
 //                 <Route path="/serial" element={<SerialList />} />
 //                 <Route path="/serial/edit/:id" element={<SerialEdit />} />
@@ -90,3 +91,5 @@ export const AppRoutes = () => {
 //         </BrowserRouter>
 //     )
 // }
+
+
