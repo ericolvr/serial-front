@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import ApiSignIn from './service';
 import { AuthContext } from '@/contexts/general';
 
+import BgImage from '../../assets/otp.svg';
 
 export function SignIn() {
     const { authenticated, HandleAuthenticated } = useContext(AuthContext);
@@ -43,21 +44,22 @@ export function SignIn() {
 
     return (
         <main className='flex h-screen w-full'>
-            <div className='bg-[#F0F0F0] w-full h-full flex'>
+            <div className='bg-[#F0F0F0] w-full h-full flex items-center justify-center'>
+                <img src={BgImage} alt="My SVG" className=' w-[50%] h-[50%]' />
             </div>
 
             <section className='flex bg-backgroundmax-w-3xl w-full  justify-center items-center'>
-                <Card>
+                <Card className='w-[360px]'>
                     <CardHeader>
-                        <CardTitle  className='text-2xl font-normal tracking-tighter'>Entre com sua conta</CardTitle>
+                        {/* <CardTitle  className='text-2xl font-normal tracking-tighter'>Acessar  </CardTitle>
                         <CardDescription>
-                            Utilze seu número de celular e sua senha para entrar
-                        </CardDescription>
+                            Utilze seu número de celular e senha para entrar
+                        </CardDescription> */}
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit}>
                             <div>
-                                <Label htmlFor='mobile'>Celular</Label>
+                                <Label htmlFor='mobile' className='pb-1'>celular</Label>
                                 <Input 
                                     value={mobile}
                                     onChange={(e) => setMobile(e.target.value)}
@@ -66,8 +68,8 @@ export function SignIn() {
                                 />
                             </div>
 
-                            <div className='mt-5'>
-                                <Label htmlFor='mobile'>Sua Senha</Label>
+                            <div className='mt-7'>
+                                <Label htmlFor='mobile' className='pb-1'>sua senha</Label>
                                 <Input 
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -76,7 +78,7 @@ export function SignIn() {
                                     placeholder='Digite seu número de celular' 
                                 />
                             </div>
-                            <Button className='mt-7 w-full'>Entrar</Button>
+                            <Button className='mt-9 w-full'>Entrar</Button>
                         </form>
                     </CardContent>
                 </Card>        
