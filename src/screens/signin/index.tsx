@@ -29,13 +29,8 @@ export function SignIn() {
 
         const response = await ApiSignIn.GetToken({ data });
         console.log(response);
-        if (response) {
+        if (response && response['access_token']) {
             HandleAuthenticated(true);
-        }
-        if (response['access_token']) {
-            // setUserAuthenticated(true);
-            // setUserRole(response['role']);
-            navigate('/dashboard');
         } else {
             console.log('error');
         }
