@@ -30,7 +30,7 @@ export function Dashboard() {
                             <BreadcrumbList>
                                 <BreadcrumbItem>
                                     <Link to="/">
-                                    <BreadcrumbPage className="font-mono text-gray-500 text-md">Registradores</BreadcrumbPage>
+                                    <BreadcrumbPage className="font-mono text-gray-500 text-md">Dashboard</BreadcrumbPage>
                                     </Link>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
