@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import { Button } from "@/components/ui/button";
-import { RotateCw } from "lucide-react";
+import { Link, RotateCw } from "lucide-react";
 import { AuthContext } from "@/contexts/general";
 import { Sidebar } from "@/components/app/sidebar";
 import { Navbar } from "@/components/app/navbar";
 import { Last } from "@/components/app/dashboard/last";
 import { Chart } from "@/components/app/dashboard/chart";
 import { TabClients } from "@/components/app/dashboard/tabs";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb";
 
 
 export function Dashboard() {   
@@ -16,7 +17,17 @@ export function Dashboard() {
         <div className="flex">
             <Sidebar />
             <div className={ opened ? "flex-1 bg-[#f0f0f0]" : "flex-1 bg-[#f0f0f0] h-full" }>
-                <Navbar first="Dashboard" />
+                {/* <Navbar first="Dashboard" /> */}
+                <Breadcrumb>
+                    <BreadcrumbList>
+                        <BreadcrumbItem>
+                            <Link to="/">
+                                <BreadcrumbLink className="font-mono text-[#000000] text-md">Dashboard</BreadcrumbLink>
+                            </Link>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                    </BreadcrumbList>
+                </Breadcrumb>
 
                 <section className="h-auto pt-2 pl-10 pr-10 mb-10">
                     <div className="grid grid-cols-12 gap-8">
