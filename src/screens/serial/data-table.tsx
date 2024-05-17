@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -40,17 +40,18 @@ import {
 import { 
 	ChevronLeft, 
 	ChevronRight, 
+	WifiOff,
 	Download, 
 	Plus, 
 	Printer, 
 	AlignRight,
 	Search,
-	
+
 } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+
 import { Link } from "react-router-dom"
 import ApiSucrilhos from "./service-rasp";
-
+import { AuthContext } from "@/contexts/general";
 
 
 
@@ -64,6 +65,7 @@ export function DataTable<TData, TValue>({
 	data,
 }: DataTableProps<TData, TValue>) {
 
+	const { port } = useContext(AuthContext);
   	const [open, setOpen] = useState(false)
 	const [decimals, setDecimals] = useState([])
 
@@ -84,22 +86,21 @@ export function DataTable<TData, TValue>({
 		getFilteredRowModel: getFilteredRowModel(),
 	})
 
-	const getSerial = async () => {
-		console.log('0909009090909090090900909')
-		const response = await ApiSucrilhos.ReadSerial();
-        if (response) {
-			setDecimals(response);
-        }
-	}
+	// const getSerial = async () => {
+	// 	const response = await ApiSucrilhos.ReadSerial();
+    //     if (response) {
+	// 		setDecimals(response);
+    //     }
+	// }
 
-	const convert= (item) => {
-		const decimal = parseInt(item);
-		if (!isNaN(decimal)) {
-		  const ascii = String.fromCharCode(decimal);
-		  console.log(ascii);
-		  return ascii;
-		} 
-	};
+	// const convert= (item) => {
+	// 	const decimal = parseInt(item);
+	// 	if (!isNaN(decimal)) {
+	// 	  const ascii = String.fromCharCode(decimal);
+	// 	  console.log(ascii);
+	// 	  return ascii;
+	// 	} 
+	// };
 
 	
 	return (
@@ -116,7 +117,7 @@ export function DataTable<TData, TValue>({
 					/>
 					
 					<div className="flex items-center space-x-2">
-						<DropdownMenu open={open} onOpenChange={setOpen}>
+						{/* <DropdownMenu open={open} onOpenChange={setOpen}>
 							<DropdownMenuTrigger asChild>
 								<AlignRight strokeWidth={1.5} className="text-[#1A1C1E] w-8 h-8 hover:text-black cursor-pointer" />
 							</DropdownMenuTrigger>
@@ -160,11 +161,19 @@ export function DataTable<TData, TValue>({
                                     }
 								</div>
 							</DialogContent>
-						</Dialog>
+						</Dialog> */}
+						{	
+							port ? (
+								<Link to="/serial/add" className="flex justify-between items-center bg-black py-2.5 pl-2 pr-5 text-white rounded-lg border-2 border-black hover:bg-white hover:text-black hover:border-2 hover:border-black transition-colors duration-400">
+									<Plus strokeWidth={2.5} className=" h-4 w-4 tex-white mr-2" /> <span className="text-sm font-mono">Adicionar </span> 
+								</Link>
 
-						<Link to="/serial/add" className="flex justify-between items-center bg-black py-2.5 pl-2 pr-5 text-white rounded-lg border-2 border-black hover:bg-white hover:text-black hover:border-2 hover:border-black transition-colors duration-400">
-							<Plus strokeWidth={2.5} className=" h-4 w-4 tex-white mr-2" /> <span className="text-sm font-mono">Adicionar </span> 
-						</Link>
+							) : (
+								<Link to="#" className="flex justify-between items-center bg-red-500 py-2.5 pl-2 pr-5 text-white rounded-lg border-2 border-red-500 transition-colors duration-400">
+									<WifiOff strokeWidth={2.5} className=" h-4 w-4 tex-white mr-2" /> <span className="text-sm font-mono">Offline </span> 
+								</Link>
+							)
+						}
 					</div>
       			</div>
 			<Table>

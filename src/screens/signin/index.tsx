@@ -12,20 +12,20 @@ export function SignIn() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log('submit --->');
         const data = {
             'mobile': mobile,
             'password': password 
         }
 
-        const response = await ApiSignIn.GetToken({ data });
-        if (response['access_token']) {
-            setUserAuthenticated(true);
-            setUserRole(response['role']);
-            navigate('/dashboard');
-        } else {
-            console.log('error');
-        }
+        // const response = await ApiSignIn.GetToken({ data });
+        // if (response['access_token']) {
+        //     setUserAuthenticated(true);
+        //     setUserRole(response['role']);
+        //     navigate('/dashboard');
+        // } else {
+        //     console.log('error');
+        // }
     }
 
 

@@ -11,6 +11,7 @@ import { UserAdd } from '@/screens/user/add';
 import { UserList } from '@/screens/user/list';
 import { RegisterAdd } from '@/screens/register/add';
 import { RegisterList } from '@/screens/register/list';
+import { RegisterResults } from '@/screens/register/results';
 import { SignIn } from '@/screens/signin';
 
 
@@ -31,6 +32,7 @@ export const AppRoutes = () => {
                 <Route path="/user" element={<UserList />} />
                 <Route path="/register/add" element={<RegisterAdd />} />
                 <Route path="/register" element={<RegisterList />} />
+                <Route path="/register/results" element={<RegisterResults />} />
             </Routes>
         </BrowserRouter>
     )
