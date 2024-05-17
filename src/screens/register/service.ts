@@ -1,5 +1,6 @@
 import axios from 'axios';
 const BASE_URL = import .meta.env.VITE_API_URL;
+const RASP_URL = import.meta.env.VITE_RASP_URL;
 
 
 class ApiRegister {
@@ -25,7 +26,19 @@ class ApiRegister {
         } catch (error) {
             console.log(error);
         }
-    }    
+    }
+    
+    static async Results() {
+        try {
+            const response = await axios.get(`${RASP_URL}/serial/read-results`);
+            if (response.status === 200) {
+                return response.data;
+            }
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 }
 

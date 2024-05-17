@@ -31,10 +31,10 @@ class ApiDashboard {
     static async CheckSerialPort() {
         try {
             const response = await axios.get(`${RASP_URL}/utils/check-serial`);
-            if (response.status === 200) {
+            if (response) {
                 return response.data;
             }
-            return response.data;
+            
         } catch (error) {
             console.log(error);
         }

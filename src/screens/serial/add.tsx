@@ -165,7 +165,8 @@ export function SerialAdd() {
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>Fase</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                        <Select onValueChange={field.onChange} defaultValue="1">
+                                                            {/* defaultValue={field.value} */}
                                                             <FormControl>
                                                                 <SelectTrigger>
                                                                     <SelectValue placeholder="Selecione a Fase" />
@@ -189,7 +190,8 @@ export function SerialAdd() {
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>Equipamento</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                        <Select onValueChange={field.onChange} defaultValue="3000">
+                                                        {/* defaultValue={field.value} */}
                                                             <FormControl>
                                                                 <SelectTrigger>
                                                                     <SelectValue placeholder="Selecione o Equipamento" />
@@ -205,7 +207,6 @@ export function SerialAdd() {
                                                 </FormItem>
                                             )} /> 
                                         </div>
-                                        
                                     </div>
 
                                     <div className="flex items-center mt-8">
@@ -221,7 +222,8 @@ export function SerialAdd() {
                                                                 field.onChange(value);
                                                                 onClientChange(value);
                                                             }} 
-                                                            defaultValue={field.value}
+                                                            // defaultValue={field.value}
+                                                            defaultValue="BBTS"
                                                         >
                                                             <FormControl>
                                                                 <SelectTrigger>

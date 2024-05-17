@@ -1,12 +1,20 @@
 import { useContext } from "react";
 import { Button } from "@/components/ui/button";
 import { RotateCw } from "lucide-react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "@/contexts/general";
 import { Sidebar } from "@/components/app/sidebar";
-import { Navbar } from "@/components/app/navbar";
 import { Last } from "@/components/app/dashboard/last";
 import { Chart } from "@/components/app/dashboard/chart";
 import { TabClients } from "@/components/app/dashboard/tabs";
+import { 
+    Breadcrumb, 
+    BreadcrumbList, 
+    BreadcrumbItem, 
+    BreadcrumbPage
+} from "@/components/ui/breadcrumb";
+import { Messages } from "@/components/app/messages";
+import { UserActions } from "@/components/app/userActions";
 
 
 export function Dashboard() {   
@@ -16,7 +24,25 @@ export function Dashboard() {
         <div className="flex">
             <Sidebar />
             <div className={ opened ? "flex-1 bg-[#f0f0f0]" : "flex-1 bg-[#f0f0f0] h-full" }>
-                <Navbar first="Dashboard" />
+                <section className="flex pt-6 pr-10 pb-6 pl-9 justify-between">
+                    <div className="justify-start pt-3 pl-3">
+                        <Breadcrumb>
+                            <BreadcrumbList>
+                                <BreadcrumbItem>
+                                    <Link to="/">
+                                    <BreadcrumbPage className="font-mono text-gray-500 text-md">Registradores</BreadcrumbPage>
+                                    </Link>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
+                        </Breadcrumb>
+                    </div>
+                    <div className='justify-end'>
+                        <div className="flex justify-between">
+                            <Messages />
+                            <UserActions />
+                        </div>
+                    </div>
+                </section>
 
                 <section className="h-auto pt-2 pl-10 pr-10 mb-10">
                     <div className="grid grid-cols-12 gap-8">
