@@ -50,12 +50,7 @@ export function SignIn() {
 
             <section className='flex bg-backgroundmax-w-3xl w-full  justify-center items-center'>
                 <Card className='w-[360px]'>
-                    <CardHeader>
-                        {/* <CardTitle  className='text-2xl font-normal tracking-tighter'>Acessar  </CardTitle>
-                        <CardDescription>
-                            Utilze seu número de celular e senha para entrar
-                        </CardDescription> */}
-                    </CardHeader>
+                    <CardHeader />
                     <CardContent>
                         <form onSubmit={handleSubmit}>
                             <div>
@@ -64,7 +59,7 @@ export function SignIn() {
                                     value={mobile}
                                     onChange={(e) => setMobile(e.target.value)}
                                     id='mobile' 
-                                    placeholder='Digite seu número de celular' 
+                                    placeholder='celular com prefixo' 
                                 />
                             </div>
 
@@ -75,7 +70,7 @@ export function SignIn() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     id='password' 
                                     type='password' 
-                                    placeholder='Digite seu número de celular' 
+                                    placeholder='digite a senha' 
                                 />
                             </div>
                             <Button className='mt-9 w-full'>Entrar</Button>
