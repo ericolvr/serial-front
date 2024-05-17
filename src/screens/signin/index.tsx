@@ -3,18 +3,18 @@ import { Button } from '@/components/ui/button';
 import { 
     Card, 
     CardContent, 
-    CardDescription, 
-    CardHeader, 
-    CardTitle 
+    CardHeader
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useNavigate } from 'react-router-dom';
 import ApiSignIn from './service';
 import { AuthContext } from '@/contexts/general';
-
 import BgImage from '../../assets/otp.svg';
 
+
 export function SignIn() {
+    const navigate = useNavigate();
     const { authenticated, HandleAuthenticated } = useContext(AuthContext);
     const [ mobile, setMobile ] = useState('');
     const [ password, setPassword ] = useState('');
@@ -32,13 +32,13 @@ export function SignIn() {
         if (response) {
             HandleAuthenticated(true);
         }
-        // if (response['access_token']) {
-        //     setUserAuthenticated(true);
-        //     setUserRole(response['role']);
-        //     navigate('/dashboard');
-        // } else {
-        //     console.log('error');
-        // }
+        if (response['access_token']) {
+            // setUserAuthenticated(true);
+            // setUserRole(response['role']);
+            navigate('/dashboard');
+        } else {
+            console.log('error');
+        }
     }
 
 
