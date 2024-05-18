@@ -158,32 +158,32 @@ export function SerialEdit() {
                                 <form onSubmit={form.handleSubmit(onSubmit)}>
                                     <div className="flex items-center">
                                         <div className="w-1/2 mr-8">
-                                            <FormField
-                                                control={form.control}
-                                                name="equipment"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Equipamento</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Selecione o Equipamento" />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                {serial.equipment && (
-                                                                    <SelectItem value={serial.equipment} selected={true}>
-                                                                    {serial.equipment}
-                                                                    </SelectItem>
-                                                                )}
-                                                                <SelectItem value="3">ATK 3000</SelectItem>
-                                                                <SelectItem value="6">ATK 6000</SelectItem>
-                                                                <SelectItem value="12">ATK 12000</SelectItem>
-                                                            </SelectContent>
-                                                        </Select>
+                                        <FormField
+                                            control={form.control}
+                                            name="equipment"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Equipamento</FormLabel>
+                                                    <Select 
+                                                        onValueChange={field.onChange} 
+                                                        defaultValue={serial.equipment ? serial.equipment : '3'} 
+                                                    >
+                                                        <FormControl>
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Selecione o Equipamento" />
+                                                            </SelectTrigger>
+                                                        </FormControl>
+                                                        <SelectContent>
+                                                            <SelectItem value={serial.equipment}>ATK{serial.equipment}</SelectItem>
+                                                            <SelectItem value="3">ATK 3000</SelectItem>
+                                                            <SelectItem value="6">ATK 6000</SelectItem>
+                                                            <SelectItem value="12">ATK 12000</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
                                                     <FormMessage />
                                                 </FormItem>
-                                            )} /> 
+                                            )}
+                                        />
                                         </div>
                                         <div className="w-1/2">
                                             <FormField
