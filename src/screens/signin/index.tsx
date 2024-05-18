@@ -10,27 +10,28 @@ import { Label } from '@/components/ui/label';
 import { useNavigate } from 'react-router-dom';
 import ApiSignIn from './service';
 import { AuthContext } from '@/contexts/general';
+import  Storage from '@/storage';
 import BgImage from '../../assets/otp.svg';
 
 
 export function SignIn() {
     const navigate = useNavigate();
-    const { authenticated, HandleAuthenticated } = useContext(AuthContext);
+    const { HandleAuthenticated } = useContext(AuthContext);
     const [ mobile, setMobile ] = useState('');
     const [ password, setPassword ] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('submit --->');
         const data = {
             'mobile': mobile,
             'password': password 
         }
 
         const response = await ApiSignIn.GetToken({ data });
-        console.log(response);
         if (response && response['access_token']) {
             HandleAuthenticated(true);
+            Storage.StoreUserData({ data: response });
+            navigate('/dashboard');
         } else {
             console.log('error');
         }
@@ -42,7 +43,6 @@ export function SignIn() {
             <div className='bg-[#F0F0F0] w-full h-full flex items-center justify-center'>
                 <img src={BgImage} alt="My SVG" className=' w-[50%] h-[50%]' />
             </div>
-
             <section className='flex bg-backgroundmax-w-3xl w-full  justify-center items-center'>
                 <Card className='w-[360px]'>
                     <CardHeader />
