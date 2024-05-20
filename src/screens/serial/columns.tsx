@@ -86,9 +86,6 @@ export const columns: ColumnDef<Serial>[] = [
                     <Link to={`/serial/edit/${line.id}`} className="text-right ml-8">
                         <Pencil strokeWidth={1.75} className="h-5 w-5 text-black hover:text-gray-800" />
                     </Link>
-                    <Link to={`/serial/delete/${line.id}`} className="ml-8">
-                        <Trash2 strokeWidth={1.75} className="h-5 w-5 text-red-600 hover:text-red-800" />
-                    </Link>
                 </div>
                 
             )
