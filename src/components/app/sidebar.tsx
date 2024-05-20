@@ -23,7 +23,7 @@ export function Sidebar() {
                         </Button>
                     </div>
 
-                    <Link to="/" className="p-2">
+                    <Link to="/dashboard" className="p-2">
                         <Layers className="text-[#1A1C1E] w-8 h-8" />
                     </Link>
 
@@ -37,7 +37,7 @@ export function Sidebar() {
             <hr className="mt-8 mr-8 ml-8 border-t-1 border-[#EFEFEF]" />
             <div className="px-6 pt-9">
                 <ul>
-                    <Link to="/" className="group">
+                    <Link to="/dashboard" className="group">
                         <li className="flex justify-start items-center font-mono subpixel-antialiased p-4 group-hover:bg-[#1A1C1E] ? rounded-md mb-2">
                             <Gauge strokeWidth={2} className={opened ? "w-6 h-6 text[#1A1C1E] group-hover:text-white transition-colors duration-700" : "w-7 h-7 text[#1A1C1E] group-hover:text-white transition-colors duration-600"} />
                             <p className={ opened ? "pl-8 text-md text-black group-hover:text-white transition-colors duration-600" : "hidden"}>Dashboard</p>
