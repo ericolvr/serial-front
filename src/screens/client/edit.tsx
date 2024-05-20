@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import {
 	Form,
-	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -28,7 +27,6 @@ import { UserActions } from "@/components/app/userActions";
 import { Messages } from "@/components/app/messages";
 import { Input } from "@/components/ui/input";
 import ApiClient from "./service"; 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const FormSchema = z.object({
     name: z.string().nonempty({ message: 'Informe o nome do cliente' }),
@@ -36,31 +34,24 @@ const FormSchema = z.object({
 
 
 export function ClientEdit() {
-    const { id } = useParams<{ id: string }>();
     const { opened } = useContext(AuthContext);
+    const { id } = useParams<{ id: string }>();
+    const [ client, setClient] = useState('')
     const navigate = useNavigate(); 
-    const [client, setClient] = useState<any>({});
-    const [selectedClient, setSelectedClient] = useState('');
-    const [loading, setLoading] = useState(true);
-
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-        defaultValues: {
-            name: '', 
-        },
     })
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data, '----on submit')
         try {
             const response = await ApiClient.Update({ id, data });
-            if (response == 200) {
-                navigate('/client')
+            if (response === 200) {                
+                navigate('/client');
             } else {
-                toast.error('Erro ao editar o cliente');
+                
+                toast.error('Erro ao adicionar o cliente');
             }
-
         } catch (error) {
             console.log(error, 'error')
         }
@@ -69,22 +60,14 @@ export function ClientEdit() {
     const getClient = async () => {
         const response = await ApiClient.GetClient({id});
         if (response) {
-            setSelectedClient(response);
-            setClient(response)
-            setLoading(false)
-            if(response.name) {
-                form.setValue('name', response.name.toString());
-            } else {
-                console.log('VAZIO')
-            }
+            setClient(response);
+            form.setValue('name', response.name);
         }
     }
 
     useEffect(() => {
         getClient();
-        
-    }, []);
-
+    }, [])
 
     return (
         <div className="flex">
@@ -129,41 +112,21 @@ export function ClientEdit() {
                                 <form onSubmit={form.handleSubmit(onSubmit)}>
                                     <div className="flex items-center">
                                         <div className="w-full mr-8">
-                                        <FormField
-                                            control={form.control}
-                                            name="name" 
-                                            render={({field}) => (
-                                                <FormItem>
-                                                    <FormLabel>Fase</FormLabel>
-                                                    { loading ? (
-                                                        <p>loading</p>
-                                                    ) : (
-                                                        <Select
-                                                            defaultValue={client && client.name ? client.name.toString() : ''}
-                                                            onValueChange={value => {
-                                                                field.onChange(value);
-                                                            }}
-                                                        >
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Selecione o Cliente" />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                <SelectItem key={1} value={client.name}>{client.name}</SelectItem>
-                                                                <SelectItem key={2} value="IBM">IBM</SelectItem>
-                                                                <SelectItem key={3} value="Oracle">Oracle</SelectItem>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    )}
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
+                                            <FormField
+                                                control={form.control}
+                                                name="name"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Cliente</FormLabel>
+                                                        <Input placeholder="Nome do Cliente" {...field} defaultValue={client ? client.name : ''} />
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
                                         </div>
                                     </div>
                                     <div className="pt-6">
-                                        <Button type="submit" className="bg-black font-mono">Salvar</Button>
+                                        <Button type="submit" className="bg-black font-mono">Adicionar</Button>
                                     </div>
                                 </form>    
                             </Form>
