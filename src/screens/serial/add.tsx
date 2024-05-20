@@ -165,8 +165,10 @@ export function SerialAdd() {
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>Fase</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue="1">
-                                                            {/* defaultValue={field.value} */}
+                                                        <Select 
+                                                            onValueChange={field.onChange} 
+                                                            defaultValue={field.value}
+                                                            >
                                                             <FormControl>
                                                                 <SelectTrigger>
                                                                     <SelectValue placeholder="Selecione a Fase" />
@@ -190,8 +192,10 @@ export function SerialAdd() {
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>Equipamento</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue="3000">
-                                                        {/* defaultValue={field.value} */}
+                                                        <Select 
+                                                            onValueChange={field.onChange}
+                                                            defaultValue={field.value}
+                                                        >
                                                             <FormControl>
                                                                 <SelectTrigger>
                                                                     <SelectValue placeholder="Selecione o Equipamento" />
@@ -222,8 +226,7 @@ export function SerialAdd() {
                                                                 field.onChange(value);
                                                                 onClientChange(value);
                                                             }} 
-                                                            // defaultValue={field.value}
-                                                            defaultValue="BBTS"
+                                                            defaultValue={field.value}
                                                         >
                                                             <FormControl>
                                                                 <SelectTrigger>
@@ -286,8 +289,8 @@ export function SerialAdd() {
                                                 render={({ field }) => (
                                                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                                     <div>
-                                                        <FormLabel className="text-base">Desativar Serial </FormLabel>
-                                                        <FormDescription>Você pode desativar o número serial em caso de troca ou manutenção</FormDescription>
+                                                        <FormLabel className="text-base">Desativado? </FormLabel>
+                                                        <FormDescription>Você pode desativar o número serial</FormDescription>
                                                     </div>
                                                     <FormControl>
                                                         <Switch
