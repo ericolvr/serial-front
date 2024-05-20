@@ -39,7 +39,7 @@ class ApiClient {
     }
 
     static async Update({ id, data }) {
-        console.log(id, data)
+        console.log(id, data, 'SERVICE')
         try{ 
             const response = await axios.patch(`${BASE_URL}/clients/update/${id}`, data)
             if (response.status == 200) {
