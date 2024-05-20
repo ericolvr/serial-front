@@ -38,6 +38,17 @@ class ApiSerial {
             console.log(error);
         }
     }
+
+    static async Update({ id, data }) {
+        try{ 
+            const response = await axios.patch(`${BASE_URL}/serials/update/${id}`, data)
+            if (response.status == 200) {
+                return response.status
+            }
+        } catch (error) {
+            console.log(error)
+        } 
+    }
 }
 
 export default ApiSerial;
