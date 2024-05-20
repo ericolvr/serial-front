@@ -66,7 +66,6 @@ export function RegisterAdd() {
     })
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log('SUB', data)
         try {
             const response = await ApiRegister.Insert({ data });
             if (response === 201) {                
