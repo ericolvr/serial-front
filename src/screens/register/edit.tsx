@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -7,6 +7,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Input } from "@/components/ui/input";
 import {
 	Form,
 	FormControl,
@@ -14,7 +15,6 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-    FormDescription,
 } from "@/components/ui/form"
 import {
     Select,
@@ -23,7 +23,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch"
 import { Toaster, toast } from 'sonner'
 import { Button } from "@/components/ui/button";
 import { z } from "zod"
@@ -35,36 +34,30 @@ import { AuthContext } from "@/contexts/general";
 import { Sidebar } from "@/components/app/sidebar";
 import { UserActions } from "@/components/app/userActions";
 import { Messages } from "@/components/app/messages";
-import ApiSerial from "./service"; 
-import ApiBranch from "../branch/service";
-
+import ApiClient from "../client/service";
+import ApiRegister from "./service";
 
 const FormSchema = z.object({
+    client: z.string({
+        required_error: "Selecione o cliente",
+    }),
+    
     equipment: z.string({
         required_error: "Selecione o equipamento",
     }),
-    
-	client_name: z.string({
-	    required_error: "Selecione o cliente",
-	}),
-    
-    uniorg: z.string().optional().default(""),
 
-    step: z.string({
-	    required_error: "Selecione a fase",
-	}),
-
-    disabled: z.boolean().optional().default(false),
+    address: z.string().nonempty({ message: 'Informe o número do registrador' }),
+    value: z.string().nonempty({ message: 'Informe o valor a ser escrito' }),
+    description: z.string().nonempty({ message: 'Informe a descrição' }),
 })
 
 
-export function SerialEdit() {
+export function RegisterEdit() {
     const { opened } = useContext(AuthContext);
-
     const { id } = useParams<{ id: string }>();
-    const [serial, setSerial] = useState<any>({});
-    const [branchs, setBranchs] = useState([]);
-    const [control, setControl] = useState<boolean>(true);
+    const [ registers, setRegisters] = useState('')
+    const [clients, setClients] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate(); 
     
@@ -74,42 +67,43 @@ export function SerialEdit() {
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         try {
-            const response = await ApiSerial.Insert({ data });
-            if (response === 201) {                
-                navigate('/serial');
+            const response = await ApiRegister.Update({ id, data });
+            if (response === 200) {                
+                navigate('/register');
             } else {
                 
-                toast.error('Erro ao adicionar serial');
+                toast.error('Erro ao editar registrador');
             }
         } catch (error) {
             console.log(error, 'error')
         }
     }
 
-    async function onClientChange(value: string) {
-        getBranchs(value);
-    }
-
-    const getSerial = async () => {
-        const response = await ApiSerial.GetSerial({id});
+    const getClients = async () => {
+        const response = await ApiClient.List();
         if (response) {
-            setSerial(response);
+            setClients(response);
         }
     }
 
-    const getBranchs = async (client: string) => {
-        const response = await ApiBranch.List({client});
-        if(response && response.length > 0) {
-            setBranchs(response);
-            setControl(false);
-        } else {
-            setControl(true);
+    const getRegister = async () => {
+        const response = await ApiRegister.GetRegister({id})
+        if(response) {
+            setRegisters(response)
+            form.setValue('client', response.client.toString());
+            form.setValue('equipment', response.equipment.toString());
+            form.setValue('address', response.address);
+            form.setValue('value', response.value);
+            form.setValue('description', response.description);
         }
+        setLoading(false)
     }
-
+    
     useEffect(() => {
-        getSerial();
-    }, []);
+        getRegister();
+        getClients();
+    }, [])
+
 
     return (
         <div className="flex">
@@ -128,8 +122,8 @@ export function SerialEdit() {
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
-                                    <Link to="/serial">
-                                        <BreadcrumbLink className="font-mono text-[#000000] text-md">Seriais</BreadcrumbLink>
+                                    <Link to="/register">
+                                        <BreadcrumbLink className="font-mono text-[#000000] text-md">Registradores</BreadcrumbLink>
                                     </Link>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />
@@ -149,154 +143,138 @@ export function SerialEdit() {
 
                 <section className=" h-auto pt-2 pl-10 pr-10">
                     <div className="flex flex-row justify-between mt-1">
-                        <div className="bg-white shadow-md p-10 w-full rounded-md">
-                            <div className="w-full mb-5">
-                                <p className="text-lg font-bold">12000198</p>
-                            </div>
-                            
+                        <div className="bg-white shadow-md p-10 w-full rounded-md">                            
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmit)}>
                                     <div className="flex items-center">
                                         <div className="w-1/2 mr-8">
                                             <FormField
                                                 control={form.control}
-                                                name="equipment"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Equipamento</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Selecione o Equipamento" />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                {serial.equipment && (
-                                                                    <SelectItem value={serial.equipment} selected={true}>
-                                                                    {serial.equipment}
-                                                                    </SelectItem>
-                                                                )}
-                                                                <SelectItem value="3">ATK 3000</SelectItem>
-                                                                <SelectItem value="6">ATK 6000</SelectItem>
-                                                                <SelectItem value="12">ATK 12000</SelectItem>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )} /> 
-                                        </div>
-                                        <div className="w-1/2">
-                                            <FormField
-                                                control={form.control}
-                                                name="step"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Fase</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Selecione a Fase" />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                <SelectItem value="3">Estoque</SelectItem>
-                                                                <SelectItem value="4">Financeiro</SelectItem>
-                                                                <SelectItem value="2">Operacional</SelectItem>
-                                                                <SelectItem value="1">Produção</SelectItem>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )} /> 
-                                        </div>
-                                    </div>
-
-                                    <div className="flex items-center mt-8">
-                                        <div className="w-1/2 mr-8">
-                                            <FormField
-                                                control={form.control}
-                                                name="client_name"
+                                                name="client"
                                                 render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>Cliente</FormLabel>
-                                                        <Select 
-                                                            onValueChange={(value) => {
-                                                                field.onChange(value);
-                                                                onClientChange(value);
-                                                            }} 
-                                                            defaultValue={field.value}
-                                                        >
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Selecione o Cliente" />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                <SelectItem value="Basa">Basa</SelectItem>
-                                                                <SelectItem value="BNB">BNB</SelectItem>
-                                                                <SelectItem value="Caixa">Caixa</SelectItem>
-                                                            </SelectContent>
-                                                        </Select>
+                                                        { loading ? (
+                                                            <p>loading</p>
+                                                        ) : (
+                                                            <Select
+                                                                defaultValue={registers && registers.client ? registers.client.toString() : ''}
+                                                                onValueChange={value => {
+                                                                    field.onChange(value);
+                                                                }}
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Selecione o Cliente" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    {registers && !clients.some(client => client.name === registers.client) && (
+                                                                        <SelectItem key={registers.id} value={registers.client}>{registers.client}</SelectItem>
+                                                                    )}
+                                                                    {
+                                                                        clients.map((client) => {
+                                                                            return (
+                                                                                <SelectItem key={client.id} value={client.name}>{client.name}</SelectItem>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </SelectContent>
+                                                            </Select>
+                                                        )
+                                                        }
+                                                        
                                                     <FormMessage />
                                                 </FormItem>
                                             )} /> 
                                         </div>
-                                        <div className="w-1/2">
+                                    
+                                        <div className="w-1/2 mr-8">
+
                                             <FormField
                                                 control={form.control}
-                                                name="uniorg"
-                                                render={({ field }) => (
+                                                name="equipment" 
+                                                render={({field}) => (
                                                     <FormItem>
-                                                        <FormLabel>Branch</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value} disabled={control ? true : false}>
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Selecione o Branch" />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                {
-                                                                    branchs.length ? (
-                                                                        branchs.map((branch: { id: string, name: string, uniorg: string}) => (
-                                                                            <SelectItem key={branch.id} value={branch.name}>{branch.uniorg} - {branch.name}</SelectItem>
-                                                                        ))
-                                                                    ) : (
-                                                                        <SelectItem value="Nenhum branch encontrado">Nenhum branch encontrado</SelectItem>
-                                                                    )
-                                                                }
-                                                            </SelectContent>
-                                                        </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )} /> 
+                                                        <FormLabel>Equipamento</FormLabel>
+                                                        { loading ? (
+                                                            <p>loading</p>
+                                                        ) : (
+                                                            <Select
+                                                                defaultValue={registers && registers.equipment ? registers.equipment.toString() : ''}
+                                                                onValueChange={value => {
+                                                                    field.onChange(value);
+                                                                }}
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Selecione o Equipamento" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    {registers && !["3000", "6000", "12000"].includes(registers.equipment) && (
+                                                                        <SelectItem key={registers.id} value={registers.equipment}>{registers.equipment}</SelectItem>
+                                                                    )}
+                                                                    <SelectItem value="3000">ATK 3000</SelectItem>
+                                                                    <SelectItem value="6000">ATK 6000</SelectItem>
+                                                                    <SelectItem value="12000">ATK 12000</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        )}
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
                                         </div>
                                     </div>
 
                                     <div className="flex items-center mt-8">
-                                        <div className="w-full">
+                                        
+                                        <div className="w-1/2 mr-8">
                                             <FormField
                                                 control={form.control}
-                                                name="disabled"
+                                                name="address"
                                                 render={({ field }) => (
-                                                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                                                        
-                                                    <div className="">
-                                                        <FormLabel className="text-base">Desativar Serial </FormLabel>
-                                                        <FormDescription>Você pode desativar o número serial em caso de troca ou manutenção</FormDescription>
-                                                    </div>
-                                                    <FormControl>
-                                                        <Switch
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
-                                                        />
-                                                    </FormControl>
+                                                    <FormItem>
+                                                        <FormLabel>Número </FormLabel>
+                                                        <Input placeholder="Número do Registrador" {...field} defaultValue={registers ? registers.address : ''} />
+                                                        <FormMessage />
                                                     </FormItem>
                                                 )}
-                                            /> 
+                                            />
+                                        </div>
+                                        <div className="w-1/2 mr-8">
+                                            <FormField
+                                                control={form.control}
+                                                name="value"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Valor </FormLabel>
+                                                        <Input placeholder="Valor a ser escrito no registrador" {...field} defaultValue={registers ? registers.value : ''} />
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
                                         </div>
                                     </div>
+                                    <div className="flex items-center mt-8">
+                                        <div className="w-full mr-8">
+                                            <FormField
+                                                control={form.control}
+                                                name="description"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Descrição</FormLabel>
+                                                        <Input placeholder="Breve descrição" {...field} defaultValue={registers ? registers.description : ''} />
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+                                    </div>
+
                                     <div className="pt-8">
-                                        <Button type="submit" className="bg-black font-mono">Gerar</Button>
+                                        <Button type="submit" className="bg-black font-mono cursor-pointer">Salvar</Button>
                                     </div>
                                 </form>    
                             </Form>
@@ -307,5 +285,3 @@ export function SerialEdit() {
         </div>
     )
 }
-
-
