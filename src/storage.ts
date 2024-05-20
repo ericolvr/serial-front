@@ -1,12 +1,7 @@
 
 
-class Erico {
+class Storage {
     static async StoreUserData({ data }) {
-        console.log(data);
-        console.log(data['user']);
-        console.log(data['access_token']);
-        console.log(data['role']);
-
         const name = data['user']
         const token = data['access_token']
         const role = data['role']
@@ -14,10 +9,34 @@ class Erico {
             localStorage.setItem('name', name);
             localStorage.setItem('token', token);
             localStorage.setItem('role', role);
+            return 'ok'
         } catch (error) {
             console.log(error);
         }
     }
+
+    static async RetriveUserToken() {
+        try {
+            const token = localStorage.getItem('token');
+            if (token){
+                return token
+            } else {
+                return token 
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    static async DeleteUserToken() {
+        try {
+            localStorage.removeItem('name')
+            localStorage.removeItem('token')
+            localStorage.removeItem('role')
+        } catch (error) {
+            console.log(error)
+        }
+    }
 }
 
-export default Erico
+export default Storage;
