@@ -103,7 +103,6 @@ export function SerialAdd() {
 
     const getClients = async () => {
         const response = await ApiClient.List();
-        console.log(response, 'response')
         if (response) {
             setClients(response);
         } else {
