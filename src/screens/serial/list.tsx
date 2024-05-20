@@ -7,7 +7,14 @@ import { DataTable } from "./data-table";
 import { SerialPort } from "@/components/app/serialPort";
 import { Messages } from "@/components/app/messages";
 import { UserActions } from "@/components/app/userActions";
-import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb";
+import { 
+    Breadcrumb, 
+    BreadcrumbList, 
+    BreadcrumbItem, 
+    BreadcrumbLink, 
+    BreadcrumbSeparator, 
+    BreadcrumbPage 
+} from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
 
 
@@ -64,8 +71,6 @@ export function SerialList() {
                     </div>
                 </section>
             </div>
-
-            
         </div>
     )
 }
