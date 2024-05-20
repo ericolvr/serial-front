@@ -5,11 +5,13 @@ import { SerialList } from '../screens/serial/list';
 import { SerialEdit } from '../screens/serial/edit';
 import { ClientAdd } from '@/screens/client/add';
 import { ClientList } from '@/screens/client/list';
+import { ClientEdit } from '@/screens/client/edit';
 import { BranchSelect } from '@/screens/branch';
 import { BranchList } from '@/screens/branch/list';
 import { UserAdd } from '@/screens/user/add';
 import { UserList } from '@/screens/user/list';
 import { RegisterAdd } from '@/screens/register/add';
+import { RegisterEdit } from '@/screens/register/edit';
 import { RegisterList } from '@/screens/register/list';
 import { RegisterResults } from '@/screens/register/results';
 import { SignIn } from '@/screens/signin';
@@ -54,6 +56,11 @@ export const AppRoutes = () => {
                         <ClientList /> 
                     </PrivateRoutes>}
                 />
+                 <Route path="/client/edit/:id" element={
+                    <PrivateRoutes>
+                        <ClientEdit /> 
+                    </PrivateRoutes>}
+                />
                 <Route path="/branch" element={
                     <PrivateRoutes>
                         <BranchSelect />
@@ -79,6 +86,11 @@ export const AppRoutes = () => {
                         <RegisterAdd />
                     </PrivateRoutes>}
                 />
+                <Route path="/register/edit/:id" element={
+                    <PrivateRoutes>
+                        <RegisterEdit />
+                    </PrivateRoutes>}
+                />
                 <Route path="/register" element={
                     <PrivateRoutes>
                         <RegisterList />
@@ -89,11 +101,7 @@ export const AppRoutes = () => {
                         <RegisterResults />
                     </PrivateRoutes>}
                 />
-                <Route path="/logout" element={
-                    <PrivateRoutes>
-                        <Logout />
-                    </PrivateRoutes>}
-                />
+                <Route path="/logout" element={<Logout />}/>
             </Routes>
         </BrowserRouter>
     )
