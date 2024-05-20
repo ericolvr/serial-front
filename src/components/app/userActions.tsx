@@ -1,31 +1,26 @@
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuPortal,
     DropdownMenuSeparator,
     DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu'
 import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-} from "@/components/ui/avatar"
+} from '@/components/ui/avatar'
 
 import {
     LogOut,
-    Mail,
-    MessageSquare,
     Settings,
-    User,
-    UserPlus
-  } from "lucide-react"
+    User
+} from 'lucide-react'
 
 
 export function UserActions() {
@@ -33,57 +28,36 @@ export function UserActions() {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                    <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="w-64 mr-2">
+            <DropdownMenuContent className='w-64 mr-2'>
                 <DropdownMenuLabel>Érico Oliveira</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                     <DropdownMenuGroup>
                         <DropdownMenuItem>
-                            <User className="mr-2 h-4 w-4" />
+                            <User className='mr-2 h-4 w-4' />
                             <span>Perfil</span>
                             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
 
                     <DropdownMenuItem>
-                        <Settings className="mr-2 h-4 w-4" />
-                        <span>Settings</span>
+                        <Settings className='mr-2 h-4 w-4' />
+                        <span>Configurações</span>
                         <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
 
                 <DropdownMenuSeparator />
-
-                <DropdownMenuGroup>
-                    <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                            <UserPlus className="mr-2 h-4 w-4" />
-                            <span>Invite users</span>
-                        </DropdownMenuSubTrigger>
-                        
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuItem>
-                                    <Mail className="mr-2 h-4 w-4" />
-                                    <span>Email</span>
-                                </DropdownMenuItem>
-                            
-                                <DropdownMenuItem>
-                                    <MessageSquare className="mr-2 h-4 w-4" />
-                                    <span>Message</span>
-                                </DropdownMenuItem>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                </DropdownMenuGroup>
                 
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
+                    <Link to='/logout' className='flex justify-start items-center'>
+                        <LogOut className='mr-2 h-4 w-4' />
+                        <span>Log out</span>
+                    </Link>
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem>
             </DropdownMenuContent>
