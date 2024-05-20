@@ -10,13 +10,12 @@ export function PrivateRoutes({ children }) {
     useEffect(() => {
         const checkToken = async () => {
             const token = await Storage.RetriveUserToken('token');
-            if (token || token != null){
+            if (token && token != null){
                 HandleAuthenticated(true);
             } else {
                 HandleAuthenticated(false)
             }
         };
-
         checkToken();
     }, []);
 
