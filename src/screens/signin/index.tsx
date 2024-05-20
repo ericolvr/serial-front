@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { 
     Card, 
@@ -28,14 +28,25 @@ export function SignIn() {
         }
 
         const response = await ApiSignIn.GetToken({ data });
-        if (response && response['access_token']) {
-            HandleAuthenticated(true);
-            Storage.StoreUserData({ data: response });
-            navigate('/dashboard');
+        if (response['access_token']) {
+            
+            HandleAuthenticated(true)
+            
+            Storage.StoreUserData({ data: response})
+            
+            navigate("/dashboard");
         } else {
             console.log('error');
         }
     }
+
+    useEffect(() => {
+        const exists = Storage.RetriveUserToken()
+        if (exists) {
+            HandleAuthenticated(true);
+            navigate("/dashboard");
+        }
+    }, []);
 
 
     return (
