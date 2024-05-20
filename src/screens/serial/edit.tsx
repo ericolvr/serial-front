@@ -35,9 +35,17 @@ import { AuthContext } from "@/contexts/general";
 import { Sidebar } from "@/components/app/sidebar";
 import { UserActions } from "@/components/app/userActions";
 import { Messages } from "@/components/app/messages";
-import ApiSerial from "./service"; 
+import ApiClient from "../client/service";
 import ApiBranch from "../branch/service";
+import ApiSerial from "./service"; 
 
+
+const stepMapping = {
+    1: 'Produção',
+    2: 'Operacional',
+    3: 'Estoque',
+    4: 'Financeiro'
+};
 
 const FormSchema = z.object({
     equipment: z.string({
@@ -63,9 +71,10 @@ export function SerialEdit() {
 
     const { id } = useParams<{ id: string }>();
     const [serial, setSerial] = useState<any>({});
+    const [clients, setClients] = useState([]);
     const [branchs, setBranchs] = useState([]);
-    const [control, setControl] = useState<boolean>(true);
-
+    const [control, setControl] = useState<boolean>(true); // ? check
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate(); 
     
     const form = useForm<z.infer<typeof FormSchema>>({
@@ -74,12 +83,12 @@ export function SerialEdit() {
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         try {
-            const response = await ApiSerial.Insert({ data });
-            if (response === 201) {                
+            const response = await ApiSerial.Update({ id, data });
+            if (response === 200) {                
                 navigate('/serial');
             } else {
                 
-                toast.error('Erro ao adicionar serial');
+                toast.error('Erro ao editar serial');
             }
         } catch (error) {
             console.log(error, 'error')
@@ -94,6 +103,26 @@ export function SerialEdit() {
         const response = await ApiSerial.GetSerial({id});
         if (response) {
             setSerial(response);
+
+            if (response.equipment) {
+                form.setValue('equipment', response.equipment.toString());
+                form.setValue('step', response.step.toString());
+                form.setValue('client_name', response.client_name.toString());
+            } else {
+                console.log('SEM EQUIPMENTO')
+            }
+            
+            setLoading(false);
+        }
+    }
+
+    const getClients = async () => {
+        const response = await ApiClient.List();
+        console.log(response, 'response')
+        if (response) {
+            setClients(response);
+        } else {
+            toast.error('Erro ao buscar clientes');
         }
     }
 
@@ -108,8 +137,11 @@ export function SerialEdit() {
     }
 
     useEffect(() => {
+        getClients();
         getSerial();
     }, []);
+
+
 
     return (
         <div className="flex">
@@ -151,63 +183,82 @@ export function SerialEdit() {
                     <div className="flex flex-row justify-between mt-1">
                         <div className="bg-white shadow-md p-10 w-full rounded-md">
                             <div className="w-full mb-5">
-                                <p className="text-lg font-bold">12000198</p>
+                                <p className="text-lg font-bold">{serial.serial_number}</p>
                             </div>
                             
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmit)}>
                                     <div className="flex items-center">
                                         <div className="w-1/2 mr-8">
-                                        <FormField
-                                            control={form.control}
-                                            name="equipment"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Equipamento</FormLabel>
-                                                    <Select 
-                                                        onValueChange={field.onChange} 
-                                                        defaultValue={serial.equipment ? serial.equipment : '3'} 
-                                                    >
-                                                        <FormControl>
-                                                            <SelectTrigger>
-                                                                <SelectValue placeholder="Selecione o Equipamento" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            <SelectItem value={serial.equipment}>ATK{serial.equipment}</SelectItem>
-                                                            <SelectItem value="3">ATK 3000</SelectItem>
-                                                            <SelectItem value="6">ATK 6000</SelectItem>
-                                                            <SelectItem value="12">ATK 12000</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
+                                            <FormField
+                                                control={form.control}
+                                                name="equipment" 
+                                                render={({field}) => (
+                                                    <FormItem>
+                                                        <FormLabel>Equipamento</FormLabel>
+                                                        { loading ? (
+                                                            <p>loading</p>
+                                                        ) : (
+                                                            <Select
+                                                                defaultValue={serial && serial.equipment ? serial.equipment.toString() : ''}
+                                                                onValueChange={value => {
+                                                                    field.onChange(value);
+                                                                }}
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Selecione o Equipamento" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    {serial && !["3000", "6000", "12000"].includes(serial.equipment) && (
+                                                                        <SelectItem key={serial.id} value={serial.equipment}>{serial.equipment}</SelectItem>
+                                                                    )}
+                                                                    <SelectItem value="3000">ATK 3000</SelectItem>
+                                                                    <SelectItem value="6000">ATK 6000</SelectItem>
+                                                                    <SelectItem value="12000">ATK 12000</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        )}
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
                                         </div>
                                         <div className="w-1/2">
                                             <FormField
                                                 control={form.control}
-                                                name="step"
-                                                render={({ field }) => (
+                                                name="step" 
+                                                render={({field}) => (
                                                     <FormItem>
                                                         <FormLabel>Fase</FormLabel>
-                                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Selecione a Fase" />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                <SelectItem value="3">Estoque</SelectItem>
-                                                                <SelectItem value="4">Financeiro</SelectItem>
-                                                                <SelectItem value="2">Operacional</SelectItem>
-                                                                <SelectItem value="1">Produção</SelectItem>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )} /> 
+                                                        { loading ? (
+                                                            <p>loading</p>
+                                                        ) : (
+                                                            <Select
+                                                                defaultValue={serial && serial.step ? serial.step.toString() : ''}
+                                                                onValueChange={value => {
+                                                                    field.onChange(value);
+                                                                }}
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Selecione a Fase" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    <SelectItem key={serial.id} value={serial.step}>{stepMapping[serial.step]}</SelectItem>
+                                                                    <SelectItem value="3">Estoque</SelectItem>
+                                                                    <SelectItem value="4">Financeiro</SelectItem>
+                                                                    <SelectItem value="2">Operacional</SelectItem>
+                                                                    <SelectItem value="1">Produção</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        )}
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
                                         </div>
                                     </div>
 
@@ -215,32 +266,76 @@ export function SerialEdit() {
                                         <div className="w-1/2 mr-8">
                                             <FormField
                                                 control={form.control}
-                                                name="client_name"
-                                                render={({ field }) => (
+                                                name="client_name" 
+                                                render={({field}) => (
                                                     <FormItem>
                                                         <FormLabel>Cliente</FormLabel>
-                                                        <Select 
-                                                            onValueChange={(value) => {
-                                                                field.onChange(value);
-                                                                onClientChange(value);
-                                                            }} 
-                                                            defaultValue={field.value}
-                                                        >
-                                                            <FormControl>
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Selecione o Cliente" />
-                                                                </SelectTrigger>
-                                                            </FormControl>
-                                                            <SelectContent>
-                                                                <SelectItem value="Basa">Basa</SelectItem>
-                                                                <SelectItem value="BNB">BNB</SelectItem>
-                                                                <SelectItem value="Caixa">Caixa</SelectItem>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )} /> 
+                                                        { loading ? (
+                                                            <p>loading</p>
+                                                        ) : (
+                                                            <Select
+                                                                defaultValue={serial && serial.client_name ? serial.client_name.toString() : ''}
+                                                                onValueChange={value => {
+                                                                    field.onChange(value);
+                                                                }}
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Selecione 0 Cliente" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    {serial && !clients.some(client => client.name === serial.client_name) && (
+                                                                        <SelectItem key={serial.id} value={serial.client_name}>{serial.client_name}</SelectItem>
+                                                                    )}
+                                                                    {
+                                                                        clients.map((client: { id: string, name: string}) => (
+                                                                            <SelectItem key={client.id} value={client.name}>{client.name}</SelectItem>
+                                                                        ))
+                                                                    }
+                                                                </SelectContent>
+                                                            </Select>
+                                                        )}
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                                                                        {/* <FormField
+                                                control={form.control}
+                                                name="client_name" 
+                                                render={({field}) => (
+                                                    <FormItem>
+                                                        <FormLabel>Cliente</FormLabel>
+                                                        { loading ? (
+                                                            <p>loading</p>
+                                                        ) : (
+                                                            <Select
+                                                                defaultValue={serial && serial.client_name ? serial.client_name.toString() : ''}
+                                                                onValueChange={value => {
+                                                                    field.onChange(value);
+                                                                }}
+                                                            >
+                                                                <FormControl>
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Selecione 0 Cliente" />
+                                                                    </SelectTrigger>
+                                                                </FormControl>
+                                                                <SelectContent>
+                                                                    <SelectItem key={serial.id} value={serial.client_name}>{serial.client_name}</SelectItem>
+                                                                    {
+                                                                        clients.map((client: { id: string, name: string}) => (
+                                                                            <SelectItem key={client.id} value={client.name}>{client.name}</SelectItem>
+                                                                        ))
+                                                                    }
+                                                                </SelectContent>
+                                                            </Select>
+                                                        )}
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            /> */}
                                         </div>
+                                        
                                         <div className="w-1/2">
                                             <FormField
                                                 control={form.control}
@@ -281,13 +376,13 @@ export function SerialEdit() {
                                                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                                                         
                                                     <div className="">
-                                                        <FormLabel className="text-base">Desativar Serial </FormLabel>
-                                                        <FormDescription>Você pode desativar o número serial em caso de troca ou manutenção</FormDescription>
+                                                        <FormLabel className="text-base">Desativado? </FormLabel>
+                                                        <FormDescription>Você pode desativar o número serial</FormDescription>
                                                     </div>
                                                     <FormControl>
                                                         <Switch
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
+                                                            checked={field.value}
+                                                            onCheckedChange={field.onChange}
                                                         />
                                                     </FormControl>
                                                     </FormItem>
@@ -296,7 +391,7 @@ export function SerialEdit() {
                                         </div>
                                     </div>
                                     <div className="pt-8">
-                                        <Button type="submit" className="bg-black font-mono">Gerar</Button>
+                                        <Button type="submit" className="bg-black font-mono">Salvar</Button>
                                     </div>
                                 </form>    
                             </Form>
