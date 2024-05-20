@@ -1,11 +1,4 @@
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbList,
-    BreadcrumbPage,
-} from "@/components/ui/breadcrumb";
-import {  Target, Usb } from "lucide-react";
-
+import {  Target } from "lucide-react";
 import { Messages } from "./messages";
 import { UserActions } from "./userActions";
 import { useEffect, useState } from "react";
@@ -35,36 +28,13 @@ export function Navbar({ first, second, third }: { first: string, second: string
 
     return (
         <div className='justify-end'>
-                <div className="flex justify-between">
-                    <Target
-                        className={`h-6 w-6 mt-2 mr-8 ${status ? 'text-green-500' : 'text-red-500'}`} 
-                    />
-                    <Messages />
-                    <UserActions />
-                </div>
+            <div className="flex justify-between">
+                <Target
+                    className={`h-6 w-6 mt-2 mr-8 ${status ? 'text-green-500' : 'text-red-500'}`} 
+                />
+                <Messages />
+                <UserActions />
             </div>
-        // <section className="flex pt-6 pr-10 pb-6 pl-9 justify-between">
-        //     <div className="justify-start pt-3 pl-3">
-        //         <Breadcrumb>
-        //             <BreadcrumbList>
-        //                 <BreadcrumbItem>
-        //                     <BreadcrumbPage className="font-mono text-gray-500 text-md">
-        //                         {first}
-        //                     </BreadcrumbPage>
-        //                 </BreadcrumbItem>                
-        //             </BreadcrumbList>
-        //         </Breadcrumb>
-        //     </div>
-        //     <div className='justify-end'>
-        //         <div className="flex justify-between">
-        //             <Target
-        //                 className={`h-6 w-6 mt-2 mr-8 ${status ? 'text-green-500' : 'text-red-500'}`} 
-        //             />
-        //             <Messages />
-        //             <UserActions />
-        //         </div>
-        //     </div>
-        // </section>
-        
+        </div>        
     )
 }
