@@ -87,7 +87,7 @@ export function DataTable<TData, TValue>({
 					/>
 					
 					<div className="flex items-center space-x-6">
-						<DropdownMenu open={open} onOpenChange={setOpen}>
+						{/* <DropdownMenu open={open} onOpenChange={setOpen}>
 							<DropdownMenuTrigger asChild>
 								<AlignRight strokeWidth={1.5} className="text-[#1A1C1E] w-8 h-8 hover:text-black cursor-pointer" />
 							</DropdownMenuTrigger>
@@ -104,7 +104,7 @@ export function DataTable<TData, TValue>({
 									</DropdownMenuItem>
 								</DropdownMenuGroup>
 							</DropdownMenuContent>
-						</DropdownMenu>
+						</DropdownMenu> */}
 						<Link to="/register/add" className="flex justify-between items-center bg-black py-2.5 pl-2 pr-5 text-white rounded-lg border-2 border-black hover:bg-white hover:text-black hover:border-2 hover:border-black transition-colors duration-400">
 							<Plus strokeWidth={2.5} className=" h-4 w-4 tex-white mr-2" /> <span className="text-sm font-mono">Adicionar </span> 
 						</Link>
