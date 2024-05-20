@@ -118,7 +118,7 @@ export function SerialEdit() {
 
     const getClients = async () => {
         const response = await ApiClient.List();
-        console.log(response, 'response')
+
         if (response) {
             setClients(response);
         } else {
@@ -281,7 +281,7 @@ export function SerialEdit() {
                                                             >
                                                                 <FormControl>
                                                                     <SelectTrigger>
-                                                                        <SelectValue placeholder="Selecione 0 Cliente" />
+                                                                        <SelectValue placeholder="Selecione o Cliente" />
                                                                     </SelectTrigger>
                                                                 </FormControl>
                                                                 <SelectContent>
