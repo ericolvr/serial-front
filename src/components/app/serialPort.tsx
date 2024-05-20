@@ -12,7 +12,6 @@ export function SerialPort() {
     
     const checkSerial = async () => {
         const response = await ApiDashboard.CheckSerialPort();
-        console.log(response, 'response');
         if (response) {
             UpdatePort(response);
         } else {
