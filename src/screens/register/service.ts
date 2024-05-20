@@ -40,6 +40,29 @@ class ApiRegister {
         }
     }
 
+    static async GetRegister({ id }: { id: string }) {
+        try {
+            const response = await axios.get(`${BASE_URL}/registers/id/${id}`);
+            if (response.status === 200) {
+                return response.data;
+            }
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async Update({ id, data }) {
+        try{ 
+            const response = await axios.patch(`${BASE_URL}/registers/update/${id}`, data)
+            if (response.status == 200) {
+                return response.status
+            }
+        } catch (error) {
+            console.log(error)
+        } 
+    }
+
 }
 
 export default ApiRegister;
