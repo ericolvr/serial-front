@@ -92,7 +92,7 @@ export function ClientEdit() {
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage className="font-mono text-gray-500 text-md">Adicionar</BreadcrumbPage>
+                                    <BreadcrumbPage className="font-mono text-gray-500 text-md">Editar</BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
@@ -126,7 +126,7 @@ export function ClientEdit() {
                                         </div>
                                     </div>
                                     <div className="pt-6">
-                                        <Button type="submit" className="bg-black font-mono">Adicionar</Button>
+                                        <Button type="submit" className="bg-black font-mono">Salvar</Button>
                                     </div>
                                 </form>    
                             </Form>
