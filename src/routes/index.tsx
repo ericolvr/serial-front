@@ -10,6 +10,7 @@ import { BranchSelect } from '@/screens/branch';
 import { BranchList } from '@/screens/branch/list';
 import { UserAdd } from '@/screens/user/add';
 import { UserList } from '@/screens/user/list';
+import { UserEdit } from '@/screens/user/edit';
 import { RegisterAdd } from '@/screens/register/add';
 import { RegisterEdit } from '@/screens/register/edit';
 import { RegisterList } from '@/screens/register/list';
@@ -30,11 +31,12 @@ export const AppRoutes = () => {
                 <Route path="/serial/edit/:id" element={<SerialEdit />}/>
                 <Route path="/client/add" element={<ClientAdd />}/>
                 <Route path="/client" element={<ClientList /> }/>
-                 <Route path="/client/edit/:id" element={<ClientEdit /> }/>
+                <Route path="/client/edit/:id" element={<ClientEdit /> }/>
                 <Route path="/branch" element={<BranchSelect />}/>
                 <Route path="/branch/list/:client" element={<BranchList />}/>
                 <Route path="/user/add/" element={<UserAdd />}/>
                 <Route path="/user" element={<UserList />}/>
+                <Route path="/user/edit/:id" element={<UserEdit />}/>
                 <Route path="/register/add" element={<RegisterAdd />}/>
                 <Route path="/register/edit/:id" element={<RegisterEdit />}/>
                 <Route path="/register" element={<RegisterList />}/>
