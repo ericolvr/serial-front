@@ -31,7 +31,6 @@ export function SignIn() {
         if (response['access_token']) {
             
             HandleAuthenticated(true)
-            
             Storage.StoreUserData({ data: response})
             
             navigate("/dashboard");
