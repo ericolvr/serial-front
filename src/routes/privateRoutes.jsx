@@ -7,15 +7,16 @@ import Storage from '../storage';
 export function PrivateRoutes({ children }) {
     const { authenticated, HandleAuthenticated } = useContext(AuthContext);
 
+    const checkToken = async () => {
+        const token = await Storage.RetriveUserToken('token');
+        if (token && token != null){
+            HandleAuthenticated(true);
+        } else {
+            HandleAuthenticated(false)
+        }
+    };
+    
     useEffect(() => {
-        const checkToken = async () => {
-            const token = await Storage.RetriveUserToken('token');
-            if (token && token != null){
-                HandleAuthenticated(true);
-            } else {
-                HandleAuthenticated(false)
-            }
-        };
         checkToken();
     }, []);
 
