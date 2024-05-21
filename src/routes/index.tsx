@@ -24,83 +24,21 @@ export const AppRoutes = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<SignIn />} />         
-                <Route path="/dashboard" element={
-                    <PrivateRoutes>
-                        <Dashboard />
-                    </PrivateRoutes>} 
-                />        
-                <Route path="/serial/add" element={
-                    <PrivateRoutes>
-                        <SerialAdd /> 
-                    </PrivateRoutes>}
-                />
-
-                <Route path="/serial" element={
-                    <PrivateRoutes>
-                        <SerialList /> 
-                    </PrivateRoutes>}
-                />
-                <Route path="/serial/edit/:id" element={
-                    <PrivateRoutes>
-                        <SerialEdit />
-                    </PrivateRoutes>}
-
-                />
-                <Route path="/client/add" element={
-                    <PrivateRoutes>
-                        <ClientAdd />
-                    </PrivateRoutes>}
-                />
-                <Route path="/client" element={
-                    <PrivateRoutes>
-                        <ClientList /> 
-                    </PrivateRoutes>}
-                />
-                 <Route path="/client/edit/:id" element={
-                    <PrivateRoutes>
-                        <ClientEdit /> 
-                    </PrivateRoutes>}
-                />
-                <Route path="/branch" element={
-                    <PrivateRoutes>
-                        <BranchSelect />
-                    </PrivateRoutes>}
-                />
-                <Route path="/branch/list/:client" element={
-                    <PrivateRoutes>
-                        <BranchList />
-                    </PrivateRoutes>}
-                />
-                <Route path="/user/add/" element={
-                    <PrivateRoutes>
-                        <UserAdd />
-                    </PrivateRoutes>}
-                />
-                <Route path="/user" element={
-                    <PrivateRoutes>
-                        <UserList />
-                    </PrivateRoutes>}
-                />
-                <Route path="/register/add" element={
-                    <PrivateRoutes>
-                        <RegisterAdd />
-                    </PrivateRoutes>}
-                />
-                <Route path="/register/edit/:id" element={
-                    <PrivateRoutes>
-                        <RegisterEdit />
-                    </PrivateRoutes>}
-                />
-                <Route path="/register" element={
-                    <PrivateRoutes>
-                        <RegisterList />
-                    </PrivateRoutes>}
-                />
-                <Route path="/register/results" element={
-                    <PrivateRoutes>
-                        <RegisterResults />
-                    </PrivateRoutes>}
-                />
+                <Route path="/dashboard" element={<Dashboard />} />        
+                <Route path="/serial/add" element={<SerialAdd /> }/>
+                <Route path="/serial" element={<SerialList /> }/>
+                <Route path="/serial/edit/:id" element={<SerialEdit />}/>
+                <Route path="/client/add" element={<ClientAdd />}/>
+                <Route path="/client" element={<ClientList /> }/>
+                 <Route path="/client/edit/:id" element={<ClientEdit /> }/>
+                <Route path="/branch" element={<BranchSelect />}/>
+                <Route path="/branch/list/:client" element={<BranchList />}/>
+                <Route path="/user/add/" element={<UserAdd />}/>
+                <Route path="/user" element={<UserList />}/>
+                <Route path="/register/add" element={<RegisterAdd />}/>
+                <Route path="/register/edit/:id" element={<RegisterEdit />}/>
+                <Route path="/register" element={<RegisterList />}/>
+                <Route path="/register/results" element={<RegisterResults />}/>
                 <Route path="/logout" element={<Logout />}/>
             </Routes>
         </BrowserRouter>
