@@ -14,8 +14,15 @@ import { UserActions } from "@/components/app/userActions";
 import { Messages } from "@/components/app/messages";
 import ApiRegister from "./service";
 import { Link } from "react-router-dom";
-import { Table, TableCaption, TableHeader, TableRow, TableHead, TableBody, TableCell, TableFooter } from "@/components/ui/table";
-
+import { 
+    Table, 
+    TableHeader, 
+    TableRow, 
+    TableHead, 
+    TableBody, 
+    TableCell 
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
 
 export function RegisterResults() {
@@ -76,6 +83,12 @@ export function RegisterResults() {
                 <section className=" h-auto pt-2 pl-10 pr-10">
                     <div className="flex flex-row justify-between mt-1">
                         <div className="bg-white shadow-md p-10 w-full rounded-md">
+                        <div className="flex justify-between items-center pb-5">
+                            <p />
+                            <Button className="bg-black rounded-lg border-2 border-black hover:bg-white hover:text-black hover:border-2 hover:border-black transition-colors duration-400">
+                                Regravar Serial
+                            </Button>
+                        </div>
                             <Table>
                                 <TableHeader>
                                     <TableRow>
@@ -95,9 +108,7 @@ export function RegisterResults() {
                                         ))
                                     }                                
                                 </TableBody>
-                            
                             </Table>
-
                             <Table className="mt-10">
                                 <TableHeader>
                                     <TableRow>
@@ -115,23 +126,7 @@ export function RegisterResults() {
                                         ))
                                     }                                
                                 </TableBody>
-                            
                             </Table>
-
-                            {/* <Table className="mt-10">
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Número</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell>sss</TableCell>
-                                    </TableRow>
-                                
-                                </TableBody>
-                            
-                            </Table> */}
                         </div>
                     </div>
                 </section>
