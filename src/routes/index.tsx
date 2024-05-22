@@ -3,6 +3,7 @@ import { Dashboard } from '../screens/dashboard';
 import { SerialAdd } from '../screens/serial/add';
 import { SerialList } from '../screens/serial/list';
 import { SerialEdit } from '../screens/serial/edit';
+import { SerialPrint } from '@/screens/serial/print';
 import { ClientAdd } from '@/screens/client/add';
 import { ClientList } from '@/screens/client/list';
 import { ClientEdit } from '@/screens/client/edit';
@@ -29,6 +30,7 @@ export const AppRoutes = () => {
                 <Route path="/serial/add" element={<SerialAdd /> }/>
                 <Route path="/serial" element={<SerialList /> }/>
                 <Route path="/serial/edit/:id" element={<SerialEdit />}/>
+                <Route path="/serial/print/:id" element={<SerialPrint />}/>
                 <Route path="/client/add" element={<ClientAdd />}/>
                 <Route path="/client" element={<ClientList /> }/>
                 <Route path="/client/edit/:id" element={<ClientEdit /> }/>
