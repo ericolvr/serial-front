@@ -19,15 +19,7 @@ export type Serial = {
     step: 'Produção' | 'Operacional' | 'Estoque' | 'Financeiro'
 }
 
-const test = () => {
-    return (
-        alert('teste')
-        
-    )
-    
 
-}
- 
 export const columns: ColumnDef<Serial>[] = [
     {
         accessorKey: 'serial_number',
@@ -94,10 +86,10 @@ export const columns: ColumnDef<Serial>[] = [
                     <Link to={`/serial/edit/${line.id}`} className='text-right ml-8'>
                         <Pencil strokeWidth={1.75} className='h-5 w-5 mr-5 text-black hover:text-gray-800' />
                     </Link>
-                    
-                    <Printer strokeWidth={1.75} className='h-5 w-5 text-black hover:text-gray-800' 
-                        onClick={test}
-                    />
+
+                    <Link to={`/serial/print/${line.id}`} className='text-right ml-8'>
+                        <Pencil strokeWidth={1.75} className='h-5 w-5 mr-5 text-black hover:text-gray-800' />
+                    </Link>
                 </div>
 
             )
