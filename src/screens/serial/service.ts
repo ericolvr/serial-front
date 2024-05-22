@@ -49,6 +49,18 @@ class ApiSerial {
             console.log(error)
         } 
     }
+
+    static async GetLast() {
+        try {
+            const response = await axios.get(`${BASE_URL}/serials/last`);
+            if (response.status === 200) {
+                return response.data;
+            }
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export default ApiSerial;
