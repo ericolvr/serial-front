@@ -88,7 +88,7 @@ export const columns: ColumnDef<Serial>[] = [
                     </Link>
 
                     <Link to={`/serial/print/${line.id}`} className='text-right ml-8'>
-                        <Pencil strokeWidth={1.75} className='h-5 w-5 mr-5 text-black hover:text-gray-800' />
+                        <Printer strokeWidth={1.75} className='h-5 w-5 mr-5 text-black hover:text-gray-800' />
                     </Link>
                 </div>
 
