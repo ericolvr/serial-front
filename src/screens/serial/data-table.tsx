@@ -85,23 +85,6 @@ export function DataTable<TData, TValue>({
 		onColumnFiltersChange: setColumnFilters,
 		getFilteredRowModel: getFilteredRowModel(),
 	})
-
-	// const getSerial = async () => {
-	// 	const response = await ApiSucrilhos.ReadSerial();
-    //     if (response) {
-	// 		setDecimals(response);
-    //     }
-	// }
-
-	// const convert= (item) => {
-	// 	const decimal = parseInt(item);
-	// 	if (!isNaN(decimal)) {
-	// 	  const ascii = String.fromCharCode(decimal);
-	// 	  console.log(ascii);
-	// 	  return ascii;
-	// 	} 
-	// };
-
 	
 	return (
 		<>
@@ -117,51 +100,6 @@ export function DataTable<TData, TValue>({
 					/>
 					
 					<div className="flex items-center space-x-2">
-						{/* <DropdownMenu open={open} onOpenChange={setOpen}>
-							<DropdownMenuTrigger asChild>
-								<AlignRight strokeWidth={1.5} className="text-[#1A1C1E] w-8 h-8 hover:text-black cursor-pointer" />
-							</DropdownMenuTrigger>
-							
-							<DropdownMenuContent align="end" className="w-[220px] p-3">
-								<DropdownMenuGroup>
-									<DropdownMenuItem className="p-3">
-										<Download strokeWidth={1.5} className="mr-2 h-5 w-5 text-black" />
-											Exportar 
-									</DropdownMenuItem>
-									<DropdownMenuItem className="p-3">
-										<Printer strokeWidth={1.5} className="mr-2 h-4 w-4" />
-										Imprimir 
-									</DropdownMenuItem>
-								</DropdownMenuGroup>
-							</DropdownMenuContent>
-						</DropdownMenu>
-
-						<Dialog>
-							<DialogTrigger asChild>
-							<Button variant="ghost" onClick={getSerial}>
-								<Search strokeWidth={2.5} className="h-6 w-6 tex-white " /> 
-							</Button> 
-							</DialogTrigger>
-							
-							<DialogContent className="sm:max-w-[425px]">
-								<DialogHeader>
-									<DialogTitle>Serial </DialogTitle>
-									<DialogDescription>
-										Número Serial que está escrito no Gerador conectado
-									</DialogDescription>
-								</DialogHeader>
-								<div className="m2">
-									
-									{
-                                        decimals.map((item: any) => {
-											return (
-												<Badge  className="m-2 p-3" key={item}>{ convert(item['value']) } - {item['value']}</Badge>
-											)
-										})
-                                    }
-								</div>
-							</DialogContent>
-						</Dialog> */}
 						{	
 							port ? (
 								<Link to="/serial/add" className="flex justify-between items-center bg-black py-2.5 pl-2 pr-5 text-white rounded-lg border-2 border-black hover:bg-white hover:text-black hover:border-2 hover:border-black transition-colors duration-400">
