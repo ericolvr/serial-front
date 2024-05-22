@@ -27,17 +27,16 @@ class ApiRegister {
             console.log(error);
         }
     }
-    
-    static async Results() {
-        try {
-            const response = await axios.get(`${RASP_URL}/serial/read-results`);
-            if (response.status === 200) {
-                return response.data;
+
+    static async Update({ id, data }) {
+        try{ 
+            const response = await axios.patch(`${BASE_URL}/registers/update/${id}`, data)
+            if (response.status == 200) {
+                return response.status
             }
-            return response.data;
         } catch (error) {
-            console.log(error);
-        }
+            console.log(error)
+        } 
     }
 
     static async GetRegister({ id }: { id: string }) {
@@ -52,15 +51,33 @@ class ApiRegister {
         }
     }
 
-    static async Update({ id, data }) {
-        try{ 
-            const response = await axios.patch(`${BASE_URL}/registers/update/${id}`, data)
-            if (response.status == 200) {
-                return response.status
+    static async Results() {
+        try {
+            const response = await axios.get(`${RASP_URL}/serial/read-results`);
+            if (response.status === 200) {
+                return response.data;
             }
+            return response.data;
         } catch (error) {
-            console.log(error)
-        } 
+            console.log(error);
+        }
+    }
+
+    static async Rewrite({data}: {data: string}) {
+        const payload = { 
+            "serial_number": data
+        }
+        console.log(payload, 'PAYLOAD')
+
+        try {
+            const response = await axios.post(`${RASP_URL}/serial/write-serial`, payload);
+            if (response.status === 200) {
+                return response.status;
+            }
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 }
