@@ -23,12 +23,16 @@ import {
     TableCell 
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import ApiSerial from "../serial/service";
+import Utils from "./utils";
 
 
 export function RegisterResults() {
     const { opened } = useContext(AuthContext);
     const [registers, setRegisters] = useState<any[]>([]);
     const [numbers, setNumbers] = useState<any[]>([]);
+    const [last, setLast] = useState<any[]>([]);
+    const [formated, setFormated] = useState('');
     
     const getResultFromRegister = async () => {
         const response = await ApiRegister.Results();
@@ -40,10 +44,27 @@ export function RegisterResults() {
     
     useEffect(() => {
         getResultFromRegister();
+        getLast();
     }, []);
 
     const decimalToAscii = (decimal: number) => {
         return String.fromCharCode(decimal);
+    }
+
+    const getLast = async () => {
+        const response = await ApiSerial.GetLast();
+        
+        if (response) {
+            setLast(response[0]['serial_number']);
+            setFormated(Utils.FormatSerial(response[0]))
+        }
+    }
+
+    const rewriteSerial = async () => {
+        const response = await ApiRegister.Rewrite({data: formated});
+        if (response == 200) {
+            getResultFromRegister();
+        }
     }
 
     return (
@@ -83,10 +104,13 @@ export function RegisterResults() {
                 <section className=" h-auto pt-2 pl-10 pr-10">
                     <div className="flex flex-row justify-between mt-1">
                         <div className="bg-white shadow-md p-10 w-full rounded-md">
-                        <div className="flex justify-between items-center pb-5">
+                        <div className="flex justify-between items-center pb-8">
                             <p />
-                            <Button className="bg-black rounded-lg border-2 border-black hover:bg-white hover:text-black hover:border-2 hover:border-black transition-colors duration-400">
-                                Regravar Serial
+                            
+                            <Button  
+                                onClick={rewriteSerial}
+                                className="bg-black rounded-lg border-2 border-black hover:bg-white hover:text-black hover:border-2 hover:border-black transition-colors duration-400">
+                                Regravar {last? last : ''}
                             </Button>
                         </div>
                             <Table>
