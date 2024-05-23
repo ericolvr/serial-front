@@ -1,7 +1,6 @@
 import axios from 'axios';
-const BASE_URL ='http://192.168.0.25:8888'
-// = import .meta.env.VITE_API_URL;
-console.log(BASE_URL, 'BASE_URL')
+const BASE_URL = import .meta.env.VITE_API_URL
+
 
 class ApiClient {
     static async List() {
