@@ -28,7 +28,6 @@ export function SignIn() {
         }
 
         const response = await ApiSignIn.GetToken({ data });
-        console.log(response, 'LINHA 32')
         if (response['access_token']) {
             
             HandleAuthenticated(true)
