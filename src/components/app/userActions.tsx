@@ -52,14 +52,12 @@ export function UserActions() {
 
                 <DropdownMenuSeparator />
                 
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
                     <Link to='/logout' className='flex justify-start items-center'>
-                        <LogOut className='mr-2 h-4 w-4' />
-                        <span>Log out</span>
+                        <DropdownMenuItem>
+                                <LogOut className='mr-2 h-4 w-4' />
+                                <span>Log out</span>
+                        </DropdownMenuItem>
                     </Link>
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     )
