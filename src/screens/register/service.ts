@@ -12,7 +12,10 @@ class ApiRegister {
             }
             return response.data;
         } catch (error) {
-            console.log(error);
+            if (error.response.status === 400) {
+                const msg = 'Registrador já existe'
+                return msg
+            }
         }
     }
 
