@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { Button } from '@/components/ui/button';
 import { 
     Card, 
@@ -28,6 +28,7 @@ export function SignIn() {
         }
 
         const response = await ApiSignIn.GetToken({ data });
+        console.log(response, 'LINHA 32')
         if (response['access_token']) {
             
             HandleAuthenticated(true)
@@ -38,15 +39,6 @@ export function SignIn() {
             console.log('error');
         }
     }
-
-    useEffect(() => {
-        const exists = Storage.RetriveUserToken()
-        if (exists) {
-            HandleAuthenticated(true);
-            navigate("/dashboard");
-        }
-    }, []);
-
 
     return (
         <main className='flex h-screen w-full'>
