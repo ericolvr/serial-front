@@ -15,7 +15,7 @@ class Storage {
         }
     }
 
-    static async RetriveUserToken() {
+    static RetriveUserToken() {
         try {
             const token = localStorage.getItem('token');
             if (token){
