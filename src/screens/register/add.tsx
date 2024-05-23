@@ -239,7 +239,7 @@ export function RegisterAdd() {
                                     </div>
 
                                     <div className="pt-8">
-                                        <Button type="submit" className="bg-black font-mono cursor-pointer">Adicionar Registrador</Button>
+                                        <Button type="submit" className="bg-black font-mono cursor-pointer">Adicionar</Button>
                                     </div>
                                 </form>    
                             </Form>
