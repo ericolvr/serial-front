@@ -57,9 +57,6 @@ export function Dashboard() {
                         <div className="col-span-5 bg-white shadow-sm p-10 rounded-md"> 
                             <div className="mb-6 flex justify-between items-start">
                                 <h1 className="flex-start text-xl font-semibold mb-1">Por cliente</h1>
-                                <Button variant="ghost" className="float-right mr-[-10px] mt-[-10px]">
-                                    <RotateCw strokeWidth={1.5} className="w-6 h-6" />
-                                </Button>
                             </div>
                             <TabClients />
                         </div>                        
