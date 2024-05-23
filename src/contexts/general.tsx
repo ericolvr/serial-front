@@ -5,7 +5,7 @@ export  const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
     const [opened, setOpened] = useState<boolean>(true);
     const [port, setPort] = useState<boolean>(false);
-    const [ authenticated, setAuthenticated ] = useState<boolean>(false);
+    const [authenticated, setAuthenticated ] = useState<boolean>(false);
 
     const ToggleSidebar = () => {setOpened(!opened)};
 
@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const HandleAuthenticated = async (status: boolean) => {
+        console.log('CONTEXT --------', status)
         setAuthenticated(status);
     }
 
