@@ -71,8 +71,7 @@ export function RegisterAdd() {
             if (response === 201) {                
                 navigate('/register');
             } else {
-                
-                toast.error('Erro ao adicionar serial');
+                toast.error(response);
             }
         } catch (error) {
             console.log(error, 'error')
