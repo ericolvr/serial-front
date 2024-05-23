@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     const HandleAuthenticated = async (status: boolean) => {
-        console.log('CONTEXT --------', status)
         setAuthenticated(status);
     }
 
