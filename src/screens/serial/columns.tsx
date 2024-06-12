@@ -1,7 +1,7 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, Pencil, Printer } from 'lucide-react'
+import { ArrowUpDown, Pencil, Printer, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 const stepMapping = {
@@ -85,6 +85,10 @@ export const columns: ColumnDef<Serial>[] = [
                 <div className='flex justify-end'>                    
                     <Link to={`/serial/edit/${line.id}`} className='text-right ml-8'>
                         <Pencil strokeWidth={1.75} className='h-5 w-5 mr-5 text-black hover:text-gray-800' />
+                    </Link>
+
+                    <Link to={`/serial/delete/${line.id}`} className='text-right ml-8'>
+                        <Trash2 strokeWidth={1.75} className='h-5 w-5 mr-5 text-black hover:text-gray-800' />
                     </Link>
 
                     <Link to={`/serial/print/${line.id}`} className='text-right ml-8'>
