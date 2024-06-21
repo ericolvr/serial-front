@@ -42,9 +42,10 @@ class ApiRegister {
         } 
     }
 
-    static async GetRegister({ id }: { id: string }) {
+    static async GetSerial() {
         try {
-            const response = await axios.get(`${BASE_URL}/registers/id/${id}`);
+            const response = await axios.get(`${RASP_URL}/status/serial`);
+            console.log(response.data, 'SERIAL')
             if (response.status === 200) {
                 return response.data;
             }
@@ -53,6 +54,20 @@ class ApiRegister {
             console.log(error);
         }
     }
+
+    static async GetRegisters() {
+        try {
+            const response = await axios.get(`${RASP_URL}/status/registers`);
+            console.log(response.data, 'REGISTERS')
+            if (response.status === 200) {
+                return response.data;
+            }
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
 
     static async Results() {
         try {

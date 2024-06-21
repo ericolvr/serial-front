@@ -11,7 +11,8 @@ import {
 import { AuthContext } from "@/contexts/general";
 import { Sidebar } from "@/components/app/sidebar";
 import { UserActions } from "@/components/app/userActions";
-import { Messages } from "@/components/app/messages";
+// import { Messages } from "@/components/app/messages";
+
 import ApiRegister from "./service";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
@@ -57,7 +58,7 @@ export function RegisterList() {
                     </div>
                     <div className='justify-end'>
                         <div className="flex justify-between">
-                            <Messages />
+                            <SingleRegister />
                             <UserActions />
                         </div>
                     </div>

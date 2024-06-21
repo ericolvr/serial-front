@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
 
-
 export function SerialList() {
     const { opened, port } = useContext(AuthContext);
     const [serials, setSerial] = useState([]);
@@ -29,7 +28,7 @@ export function SerialList() {
         } else {
             console.log('erro', response);
         }
-    }
+    };
 
     useEffect(() => {
         serialList();
@@ -55,7 +54,8 @@ export function SerialList() {
                             </BreadcrumbList>
                         </Breadcrumb>
                     </div>
-                    <div className='justify-end'> <div className="flex justify-between">
+                    <div className='justify-end'>
+                        <div className="flex justify-between">
                             <SerialPort />
                             <Messages />
                             <UserActions />
@@ -63,14 +63,14 @@ export function SerialList() {
                     </div>
                 </section>
         
-                <section className=" h-auto pt-2 pl-10 pr-10">
+                <section className="h-auto pt-2 pl-10 pr-10">
                     <div className="flex flex-row justify-between mt-1">
                         <div className="bg-white shadow-md p-10 w-full rounded-md">
-                            <DataTable columns={columns} data={serials} />
+                            <DataTable columns={columns(setSerial)} data={serials} />
                         </div>
                     </div>
                 </section>
             </div>
         </div>
-    )
+    );
 }

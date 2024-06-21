@@ -53,7 +53,7 @@ export function BranchList() {
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
                                     <Link to="/branch">
-                                        <BreadcrumbLink className="font-mono text-black text-md">Clientes</BreadcrumbLink>
+                                        <BreadcrumbLink className="font-mono text-black text-md">Branchs</BreadcrumbLink>
                                     </Link>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />

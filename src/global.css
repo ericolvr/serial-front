@@ -60,3 +60,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.closed-sheet{
+  pointer-events: auto!important;
+  /* to remove body class that is added on Sheet Open - results.tsx */
+}
