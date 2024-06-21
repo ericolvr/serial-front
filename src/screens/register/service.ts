@@ -68,7 +68,6 @@ class ApiRegister {
         }
     }
     
-
     static async Results() {
         try {
             const response = await axios.get(`${RASP_URL}/serial/read-results`);
@@ -98,6 +97,24 @@ class ApiRegister {
         }
     }
 
+    static async Single({data}: {data: string}) {
+        const register = data['register']
+        const value = data['value']
+        
+        const response = await axios.get(`${RASP_URL}/write/single?register=${register}&value=${value}`);
+        
+        if (response.status === 200) {
+            return response.data
+        }
+        // http://192.168.0.25:8000/write/single?register=538&value=84
+
+        return 0
+    //    try {
+    //     consol
+    //    } catch (error) {
+    //        console.log(error)
+    //    }
+    }
 }
 
 export default ApiRegister;
