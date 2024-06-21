@@ -105,15 +105,24 @@ class ApiRegister {
         
         if (response.status === 200) {
             return response.data
+        } else {
+            return false
         }
-        // http://192.168.0.25:8000/write/single?register=538&value=84
+    }
 
-        return 0
-    //    try {
-    //     consol
-    //    } catch (error) {
-    //        console.log(error)
-    //    }
+    static async ReadSingle(register) {
+        try {
+            const response = await axios.get(`${RASP_URL}/read/single?register=${register}`);
+            if (response.status === 200) {
+                return response.data;
+            }
+             else {
+                return false
+             }
+        } catch (error) {
+            console.log(error);
+            return false
+        }
     }
 }
 

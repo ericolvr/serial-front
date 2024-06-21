@@ -20,6 +20,7 @@ import { SignIn } from '@/screens/signin';
 import { PrivateRoutes } from './privateRoutes';
 import { Logout } from '@/screens/logout';
 
+import { ReadSingleResult } from '@/screens/register/readSingleResult';
 
 export const AppRoutes = () => {
     return (
@@ -131,6 +132,13 @@ export const AppRoutes = () => {
                 <Route path="/logout" element={
                     <PrivateRoutes>
                         <Logout />
+                    </PrivateRoutes>
+                    }
+                />
+
+                <Route path="/register/read-single/:register" element={
+                    <PrivateRoutes>
+                        <ReadSingleResult />
                     </PrivateRoutes>
                     }
                 />
