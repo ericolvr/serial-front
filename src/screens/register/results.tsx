@@ -43,8 +43,6 @@ import { useNavigate } from 'react-router-dom';
 import WriteSheet from "@/components/app/writeSheet";
 import WriteSerial from "@/components/app/writeSerial";
 import ReadSheet from "@/components/app/readSheet";
-import { get } from "http";
-import { parse } from "path";
 
 
 export function RegisterResults() {
@@ -98,15 +96,6 @@ export function RegisterResults() {
         }
     }
 
-
-    // get registers
-    const getRegisters = async (registersToRead) => {
-        const result = await ApiRegister.GetRegisters(registersToRead);
-        if (result !== false) {
-            setRegisters(result);
-        }
-    }
-
     // get serial
     const getSerial = async () => {
         const response = await ApiRegister.GetSerial();
@@ -120,6 +109,7 @@ export function RegisterResults() {
         const response = await ApiRegister.GetLast();
         if (response) {
             setToCompare(response);
+            // a lista acima sao os dados retornados do banco
             parseRegistersList(response);
         }
     }
@@ -131,11 +121,17 @@ export function RegisterResults() {
         getRegisters(addresses);
     }
 
+    // get registers
+    const getRegisters = async (registersToRead) => {
+        const result = await ApiRegister.GetRegisters(registersToRead);
+        if (result !== false) {
+            setRegisters(result);
+        }
+    }
+
 
     useEffect(() => {
         getSerial();
-        // getRegisters();
-        // getLast();
     }, []);
 
     // convert decimal serial number
@@ -186,6 +182,14 @@ export function RegisterResults() {
         }
     }
 
+    // const teste = () => {
+    //     const areEqual = registers.every((item, index) => {
+    //         return item['value'] === toCompare[index]['value'];
+    //     });
+    // }
+
+    console.log(registers, 'registers');
+    console.log(toCompare, 'toCompare');
 
     return (
         <div className="flex">
@@ -283,21 +287,33 @@ export function RegisterResults() {
                                     <TableRow>
                                         <TableHead>Registrador Número</TableHead>
                                         <TableHead>Valor Escrito</TableHead>
+                                        <TableHead>Status</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {
-                                        registers.length > 0 ? (
-                                            registers.map((item: string, index: number) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>{item['register']}</TableCell>
-                                                    <TableCell>{item['value']}</TableCell>
-                                                </TableRow>
-                                            ))
-                                        ) : (
-                                            null
-                                        )
-                                    }
+                                {
+    registers.sort((a, b) => a.register - b.register).map((item: any, index: number) => {
+        const sortedToCompare = toCompare.sort((a: any, b: any) => Number(a.address) - Number(b.address));
+        const correspondingItem = sortedToCompare.find((compareItem: any) => compareItem.address === String(item.register));
+        return (
+            <TableRow key={index}>
+                <TableCell>{item['register']}</TableCell>
+                <TableCell>{item['value']}</TableCell>
+                <TableCell>
+                    {
+                        correspondingItem && item['value'] === Number(correspondingItem['value']) ? (
+                            // <span className="text-green-500">Igual</span>
+                            
+                            <p className="bg-green-600 w-5 h-5 rounded-full"></p>
+                        ) : (
+                            <span className="text-red-500">Diferente</span>
+                        )
+                    }
+                </TableCell>
+            </TableRow>
+        )
+    })
+}
                                 </TableBody>
                             </Table>
                         </div>
