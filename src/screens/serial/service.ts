@@ -63,7 +63,6 @@ class ApiSerial {
     }
 
     static async Delete(id: string) {
-        console.log('Delete Service called 2')
         try {
             const response = await axios.delete(`${BASE_URL}/serials/delete/${id}`);
             console.log(response)

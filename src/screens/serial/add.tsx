@@ -78,7 +78,6 @@ export function SerialAdd() {
             if (response === 201) {                
                 navigate('/serial');
             } else {
-                
                 toast.error('Erro ao adicionar serial');
             }
         } catch (error) {
@@ -87,13 +86,12 @@ export function SerialAdd() {
     }
 
     async function onClientChange(value: string) {
-        getBranchs(value);
+        // getBranchs(value);
     }
 
     const getBranchs = async (client: string) => {
         const response = await ApiBranch.List({client});
         if(response && response.length > 0) {
-            console.log(response, 'response')
             setBranchs(response);
             setControl(false);
         } else {

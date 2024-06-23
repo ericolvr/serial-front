@@ -26,10 +26,10 @@ import {
     QrCode,
     PenLine,
     Locate,
-    FileSearch,
     Search,
     PlugZap,
-} from "lucide-react"
+    PocketKnife
+} from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -41,7 +41,11 @@ import {
 
 import { useNavigate } from 'react-router-dom'; 
 import WriteSheet from "@/components/app/writeSheet";
-import { set } from "react-hook-form";
+import WriteSerial from "@/components/app/writeSerial";
+import ReadSheet from "@/components/app/readSheet";
+import { get } from "http";
+import { parse } from "path";
+
 
 export function RegisterResults() {
     const navigate = useNavigate();
@@ -49,8 +53,12 @@ export function RegisterResults() {
     const [registers, setRegisters] = useState<any[]>([]);
     const [gnNumber, setGnNumber] = useState<any[]>([]);
     const [writeOpen, setWriteOpen] = useState<boolean>(false);
-    const [registerWrite, setRegisterWrite] = useState(''); // valor escrito
-
+    const [serialOpen, setSerialOpen] = useState<boolean>(false);
+    const [readOpen, setReadOpen] = useState<boolean>(false);
+    const [toCompare, setToCompare] = useState<any[]>([]);
+    
+    
+    // write field Sheet Control
     const toggleWrite = () => {
         setWriteOpen(!writeOpen);
         if (writeOpen === true) {
@@ -58,50 +66,126 @@ export function RegisterResults() {
         }   
     }
 
-    // trigerGN
-    const triggerGN = (um: number, dois: number) => {
-        console.log(um, dois, '-------------');
-        setWriteOpen(!writeOpen);
-    //     if (writeOpen === true) {
-    //         document.body.classList.add('closed-sheet');
+    // read field Sheet Control
+    const toggleRead = () => {
+        setReadOpen(!writeOpen);
+        if (readOpen === true) {
+            document.body.classList.add('closed-sheet');
+        }   
     }
 
-    const getSerial = async () => {
-        const response = await ApiRegister.GetSerial();
-        if (response) {
-            setGnNumber(response);
+    // serial field Sheet Control
+    const toggleSerial = () => {
+        setSerialOpen(!writeOpen);
+        if (serialOpen === true) {
+            document.body.classList.add('closed-sheet');
+        }   
+    }
+
+    // trigerGN
+    const triggerGN = async () => {
+        const response = await ApiRegister.TriggerGN(); 
+        if (response !== false) {
+            navigate('/register/gn-countdown');
         }
     }
 
-    const getRegisters = async () => {
-        const result = await ApiRegister.GetRegisters();
-        if (result) {
+    // batteryTest
+    const batteryTest = async () => {
+        const response = await ApiRegister.BatteryTest();
+        if (response !== false) {
+            navigate(`/register/read/22`);
+        }
+    }
+
+
+    // get registers
+    const getRegisters = async (registersToRead) => {
+        const result = await ApiRegister.GetRegisters(registersToRead);
+        if (result !== false) {
             setRegisters(result);
         }
     }
 
+    // get serial
+    const getSerial = async () => {
+        const response = await ApiRegister.GetSerial();
+        if (response) {
+            setGnNumber(response);
+            getLast();
+        }
+    }
+
+    const getLast = async () => {
+        const response = await ApiRegister.GetLast();
+        if (response) {
+            setToCompare(response);
+            parseRegistersList(response);
+        }
+    }
+
+    const parseRegistersList = (values: any) => {
+        const addresses = values.map((item: any) => {
+            return item['address'];
+        });
+        getRegisters(addresses);
+    }
+
+
     useEffect(() => {
         getSerial();
-        getRegisters();
+        // getRegisters();
+        // getLast();
     }, []);
 
-    const decimalToAscii = (decimal: number) => {
-        return String.fromCharCode(decimal);
+    // convert decimal serial number
+    function decimalToAscii(decimal: number) {
+        const ascii = String.fromCharCode(decimal);
+        return ascii; 
     }
 
     async function onSubmit(data: { register: string, value: string }) {
         try { 
-            const response = await ApiRegister.Single({ data });
-            
+            const response = await ApiRegister.WriteSingle({ data });
             if (response === true) {
                 setWriteOpen(false);
                 document.body.classList.add('closed-sheet');
-                navigate(`/register/read-single/${data.register}`);
+                navigate(`/register/read/${data.register}`);
             }
         } catch (error) {
             console.log(error, 'error');
         }
     }
+
+    // write serial
+    async function onSerialSubmit(data: { serial: string }) {
+        try { 
+            const response = await ApiRegister.RewriteSerial({ data });
+            if (response === true) {
+                setSerialOpen(false);
+                document.body.classList.add('closed-sheet');
+                getSerial();
+                getRegisters();
+            }
+        } catch (error) {
+            console.log(error, 'error');
+        }
+    }
+
+    // read field
+    async function onReadSubmit(data: { register: string }) {
+        try { 
+            const response = await ApiRegister.ReadOne({ data });
+            if (response !== false) {
+                setReadOpen(false);
+                document.body.classList.add('closed-sheet');
+                navigate(`/register/read/${data.register}`);
+            }
+        } catch (error) {
+            console.log(error, 'error');
+        }
+    }
+
 
     return (
         <div className="flex">
@@ -154,42 +238,39 @@ export function RegisterResults() {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button 
-                                            className="bg-black rounded-lg border-2 border-black hover:bg-white hover:text-black hover:border-2 hover:border-black transition-colors duration-400">
-                                            Ferramentas
+                                            className="bg-black py-5 rounded-lg border-2 border-black hover:bg-white hover:text-black hover:border-2 hover:border-black transition-colors duration-400 flex flex-row justify-between">
+                                                <PocketKnife className="mr-3 h-5 w-5" />
+                                                <span>Ferramentas</span>
                                         </Button>
                                     </DropdownMenuTrigger>
 
                                     <DropdownMenuContent className="w-56">
                                         <DropdownMenuGroup>
-                                            <DropdownMenuItem className="p-3" onClick={() => triggerGN(538, 111)}>
+                                            <DropdownMenuItem className="p-3 cursor-pointer" onClick={triggerGN}>
                                                 <Locate className="mr-3 h-5 w-5" />
                                                 <span>Disparar gerador</span>
                                             </DropdownMenuItem>
 
-                                            <DropdownMenuItem className="p-3">
+                                            <DropdownMenuItem className="p-3 cursor-pointer" onClick={batteryTest}>
                                                 <PlugZap className="mr-3 h-5 w-5" />
                                                 <span>Teste de bateria</span>
                                             </DropdownMenuItem>
                                         </DropdownMenuGroup>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuGroup>
-                                            <DropdownMenuItem className="p-3">
+                                            <DropdownMenuItem className="p-3 cursor-pointer" onClick={toggleSerial}>
                                                 <QrCode className="mr-3 h-5 w-5" />
                                                 <span>Gravar número serial</span>
                                             </DropdownMenuItem>
 
-                                            <DropdownMenuItem className="p-3" onClick={toggleWrite}> 
+                                            <DropdownMenuItem className="p-3 cursor-pointer" onClick={toggleWrite}> 
                                                 <PenLine className="mr-3 h-5 w-5" />
                                                 <span>Escrever um campo</span>
                                             </DropdownMenuItem>
                                         </DropdownMenuGroup>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuGroup>
-                                            <DropdownMenuItem className="p-3">
-                                                <FileSearch className="mr-3 h-5 w-5" />
-                                                <span>Ler registradores</span>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem className="p-3">
+                                            <DropdownMenuItem className="p-3 cursor-pointer" onClick={toggleRead}>
                                                 <Search className="mr-3 h-4 w-4" />
                                                 <span>Ler campo único</span>
                                             </DropdownMenuItem>
@@ -224,6 +305,8 @@ export function RegisterResults() {
                 </section>
             </div>
             <WriteSheet open={writeOpen} onOpenChange={toggleWrite} onSubmit={onSubmit} />
+            <WriteSerial open={serialOpen} onOpenChange={toggleSerial} onSubmit={onSerialSubmit} />
+            <ReadSheet open={readOpen} onOpenChange={toggleRead} onSubmit={onReadSubmit} />
         </div>
     )
 }

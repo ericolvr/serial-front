@@ -36,17 +36,12 @@ export function ReadSingleResult() {
         const result = await ApiRegister.ReadSingle(received);
         if (result !== false) {
             setRead(result);
-            console.log(result, 'RED');
-            console.log(typeof(result), 'TYPE');
         }
     }
 
     useEffect(() => {
         getResult();
     }, []);
-
-    console.log(read['register'], 'READ')
-
 
     return (
         <div className="flex">

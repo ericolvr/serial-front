@@ -21,6 +21,7 @@ import { PrivateRoutes } from './privateRoutes';
 import { Logout } from '@/screens/logout';
 
 import { ReadSingleResult } from '@/screens/register/readSingleResult';
+import { GNCountdown } from '@/screens/register/gnCountdown';
 
 export const AppRoutes = () => {
     return (
@@ -136,9 +137,16 @@ export const AppRoutes = () => {
                     }
                 />
 
-                <Route path="/register/read-single/:register" element={
+                <Route path="/register/read/:register" element={
                     <PrivateRoutes>
                         <ReadSingleResult />
+                    </PrivateRoutes>
+                    }
+                />
+
+                <Route path="/register/gn-countdown" element={
+                    <PrivateRoutes>
+                        <GNCountdown />
                     </PrivateRoutes>
                     }
                 />
