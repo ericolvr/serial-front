@@ -306,7 +306,7 @@ export function RegisterResults() {
                             
                             <p className="bg-green-600 w-5 h-5 rounded-full"></p>
                         ) : (
-                            <span className="text-red-500">Diferente</span>
+                            <p className="bg-red-600 w-5 h-5 rounded-full"></p>
                         )
                     }
                 </TableCell>
