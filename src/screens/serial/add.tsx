@@ -86,7 +86,7 @@ export function SerialAdd() {
     }
 
     async function onClientChange(value: string) {
-        // getBranchs(value);
+        getBranchs(value);
     }
 
     const getBranchs = async (client: string) => {
