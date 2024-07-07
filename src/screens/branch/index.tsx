@@ -35,6 +35,7 @@ import { Sidebar } from "@/components/app/sidebar";
 import { UserActions } from "@/components/app/userActions";
 import { Messages } from "@/components/app/messages";
 import ApiClient from "../client/service";
+import { Plus } from "lucide-react";
 
 export type Client = {
     id: string
@@ -105,10 +106,21 @@ export function BranchSelect() {
                 <section className=" h-auto pt-2 pl-10 pr-10">
                     <div className="flex flex-row justify-between mt-1">
                         <div className="bg-white shadow-md p-10 w-full rounded-md">
+
+                            <div className="flex justify-between items-center pb-4">
+                                <p></p>
+
+                                <div className="flex items-center space-x-6">
+                                    <Link to="/branch/add" className="flex justify-between items-center bg-black py-2.5 pl-2 pr-5 text-white rounded-lg border-2 border-black hover:bg-white hover:text-black hover:border-2 hover:border-black transition-colors duration-400">
+                                        <Plus strokeWidth={2.5} className=" h-4 w-4 tex-white mr-2" /> <span className="text-sm font-mono">Adicionar </span> 
+                                    </Link>
+                                </div>                        
+                            </div>
+
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmit)}>
                                     <div className="flex items-center">
-                                        <div className="w-full mr-8">
+                                        <div className="w-full">
                                             <FormField
                                                 control={form.control}
                                                 name="client"
