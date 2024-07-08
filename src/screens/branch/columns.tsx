@@ -1,7 +1,8 @@
 "use client"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
+import { ArrowUpDown, Pencil } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Link } from "react-router-dom"
 
 export type Branch = {
     id: string
@@ -40,5 +41,19 @@ export const columns: ColumnDef<Branch>[] = [
                 <p className="text-[#1A1C1E] text-[14.5px] subpixel-antialiased">{row.original.uniorg}</p>
             )
         }
+    },
+    {
+        id: "actions",
+        cell: ({ row }) => {
+            const line = row.original
+            return (
+                <div className="flex justify-end">                    
+                    <Link to={`/branch/edit/${line.id}`} className="text-right ml-8">
+                        <Pencil strokeWidth={1.75} className="h-5 w-5 text-black hover:text-gray-800" />
+                    </Link>
+                </div>
+                
+            )
+        },
     },
 ]

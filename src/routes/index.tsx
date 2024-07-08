@@ -9,6 +9,8 @@ import { ClientList } from '@/screens/client/list';
 import { ClientEdit } from '@/screens/client/edit';
 import { BranchSelect } from '@/screens/branch';
 import { BranchList } from '@/screens/branch/list';
+import { BranchAdd } from '@/screens/branch/add';
+import { BranchEdit } from '@/screens/branch/edit';
 import { UserAdd } from '@/screens/user/add';
 import { UserList } from '@/screens/user/list';
 import { UserEdit } from '@/screens/user/edit';
@@ -19,9 +21,9 @@ import { RegisterResults } from '@/screens/register/results';
 import { SignIn } from '@/screens/signin';
 import { PrivateRoutes } from './privateRoutes';
 import { Logout } from '@/screens/logout';
-
 import { ReadSingleResult } from '@/screens/register/readSingleResult';
 import { GNCountdown } from '@/screens/register/gnCountdown';
+
 
 export const AppRoutes = () => {
     return (
@@ -88,6 +90,18 @@ export const AppRoutes = () => {
                     </PrivateRoutes>
                     }
                 />
+                <Route path="/branch/add" element={
+                    <PrivateRoutes>
+                        <BranchAdd />
+                    </PrivateRoutes>
+                    }
+                />
+                <Route path="/branch/edit/:id" element={
+                    <PrivateRoutes>
+                        <BranchEdit />
+                    </PrivateRoutes>
+                    }
+                />
                 <Route path="/user/add/" element={
                     <PrivateRoutes>
                         <UserAdd />
@@ -137,6 +151,7 @@ export const AppRoutes = () => {
                     }
                 />
 
+
                 <Route path="/register/read/:register" element={
                     <PrivateRoutes>
                         <ReadSingleResult />
@@ -147,6 +162,7 @@ export const AppRoutes = () => {
                 <Route path="/register/gn-countdown" element={
                     <PrivateRoutes>
                         <GNCountdown />
+
                     </PrivateRoutes>
                     }
                 />
