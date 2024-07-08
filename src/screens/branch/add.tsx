@@ -98,13 +98,13 @@ export function BranchAdd() {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem>
-                                <Link to="/">
+                                <Link to="/dashboard">
                                     <BreadcrumbLink className="font-mono text-[#000000] text-md">Dashboard</BreadcrumbLink>
                                 </Link>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
-                                    <Link to="/#">
+                                    <Link to="/branch">
                                         <BreadcrumbLink className="font-mono text-[#000000] text-md">Branchs</BreadcrumbLink>
                                     </Link>
                                 </BreadcrumbItem>
