@@ -30,7 +30,8 @@ class ApiDashboard {
 
     static async CheckSerialPort() {
         try {
-            const response = await axios.get(`${RASP_URL}/utils/check-serial`);
+            const response = await axios.get(`${RASP_URL}/utils/connection`);
+
             if (response) {
                 return response.data;
             }

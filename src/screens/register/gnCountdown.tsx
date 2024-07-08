@@ -7,33 +7,48 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-
 import { AuthContext } from "@/contexts/general";
 import { Sidebar } from "@/components/app/sidebar";
 import { UserActions } from "@/components/app/userActions";
 import { Messages } from "@/components/app/messages";
-
 import ApiRegister from "./service";
-import { columns } from "./columns";
-import { DataTable } from "./data-table";
 import { Link } from "react-router-dom";
+import { 
+    Table, 
+    TableHeader, 
+    TableRow, 
+    TableHead, 
+    TableBody, 
+    TableCell 
+} from "@/components/ui/table";
+import { useParams } from "react-router-dom";
+import { MoveLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 
-export function RegisterList() {
+export function GNCountdown() {
     const { opened } = useContext(AuthContext);
-    const [registers, setRegisters] = useState([]);
-
-    const serialList = async () => {
-        const response = await ApiRegister.List();
-        if (response) {
-            setRegisters(response);
-        } else {
-            console.log('erro', response);
-        }
-    }
+    const [seconds, setSeconds] = useState(60);
+    const [isActive, setIsActive] = useState(true);
 
     useEffect(() => {
-        serialList();
+        let timerId;
+        if (isActive && seconds > 0) {
+            timerId = setInterval(() => {
+                setSeconds((prevSeconds) => prevSeconds - 1);
+            }, 1000);
+        }
+
+        return () => clearInterval(timerId);
+    }, [isActive, seconds]);
+
+    const resetTimer = () => {
+        setSeconds(60);
+        setIsActive(true);
+    };
+
+    useEffect(() => {
+        
     }, []);
 
     return (
@@ -51,7 +66,13 @@ export function RegisterList() {
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem>
-                                <BreadcrumbPage className="font-mono text-gray-500 text-md">Registradores</BreadcrumbPage>
+                                    <Link to="/register/results">
+                                        <BreadcrumbLink className="font-mono text-[#000000] text-md">Registrador</BreadcrumbLink>
+                                    </Link>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage className="font-mono text-gray-500 text-md">Contagem Gerador</BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
@@ -66,8 +87,20 @@ export function RegisterList() {
         
                 <section className=" h-auto pt-2 pl-10 pr-10">
                     <div className="flex flex-row justify-between mt-1">
-                        <div className="bg-white shadow-md p-10 w-full rounded-md">
-                            <DataTable columns={columns(setRegisters)} data={registers} />
+                        <div className="bg-white shadow-md pt-10 pb-20 pl-10 pr-10 w-full rounded-md">
+                            <div className="flex justify-between">
+                                <Link to="/register/results">
+                                    <MoveLeft />
+                                </Link>
+                            </div>
+                            
+                                <div className="flex flex-col items-center">
+                                    <p className="text-[160px] text-black">
+                                        {seconds}
+                                    </p>
+                                    <Button className="p-6 rounded-full" onClick={resetTimer}>Reiniciar Contagem  60 </Button>
+                                </div>
+                            
                         </div>
                     </div>
                 </section>
@@ -75,3 +108,4 @@ export function RegisterList() {
         </div>
     )
 }
+

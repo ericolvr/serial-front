@@ -21,7 +21,9 @@ import { RegisterResults } from '@/screens/register/results';
 import { SignIn } from '@/screens/signin';
 import { PrivateRoutes } from './privateRoutes';
 import { Logout } from '@/screens/logout';
-import { ComboBox } from '@/screens/branch/combo';
+import { ReadSingleResult } from '@/screens/register/readSingleResult';
+import { GNCountdown } from '@/screens/register/gnCountdown';
+
 
 export const AppRoutes = () => {
     return (
@@ -149,9 +151,18 @@ export const AppRoutes = () => {
                     }
                 />
 
-                <Route path="/combo" element={
+
+                <Route path="/register/read/:register" element={
                     <PrivateRoutes>
-                        <ComboBox />
+                        <ReadSingleResult />
+                    </PrivateRoutes>
+                    }
+                />
+
+                <Route path="/register/gn-countdown" element={
+                    <PrivateRoutes>
+                        <GNCountdown />
+
                     </PrivateRoutes>
                     }
                 />

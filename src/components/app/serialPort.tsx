@@ -1,11 +1,11 @@
 
 import { useEffect, useContext } from "react";
-import { Search } from "lucide-react";
+import { PocketKnife } from "lucide-react";
 import ApiDashboard from "./dashboard/service";
 import { AuthContext } from "@/contexts/general";
 import { Link } from "react-router-dom";
 
-
+<PocketKnife />
 export function SerialPort() {
     const { port, UpdatePort } = useContext(AuthContext);
 
@@ -16,7 +16,6 @@ export function SerialPort() {
             UpdatePort(response);
         } else {
             UpdatePort(false);
-            console.log('erro', response);
         }
     }
 
@@ -24,7 +23,7 @@ export function SerialPort() {
         const interval = setInterval(() => {
             checkSerial();
             return () => clearInterval(interval);
-        }, 6000);
+        }, 4000);
     }, []);
 
 
@@ -32,8 +31,8 @@ export function SerialPort() {
         <>
         {
             port ? (
-                <Link to='/register/results' variant="ghost" className="mt-[9.5px] mr-7">
-                    <Search strokeWidth={2} className="h-[23px] w-[23px] tex-white " /> 
+                <Link to='/register/results' className="mt-[9.5px] mr-7">
+                    <PocketKnife strokeWidth={2} className="h-[23px] w-[23px] tex-white " /> 
                 </Link> 
 
             ) : (

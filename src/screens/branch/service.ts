@@ -7,6 +7,7 @@ class ApiBranch {
         console.log(client, "client")
         try {
             const response = await axios.get(`${BASE_URL}/branchs/client/?client=${client}`);
+            console.log(response.data);
             if (response.status === 200) {
                 return response.data;
             }

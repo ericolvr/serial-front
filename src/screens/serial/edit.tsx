@@ -277,6 +277,7 @@ export function SerialEdit() {
                                                                 defaultValue={serial && serial.client_name ? serial.client_name.toString() : ''}
                                                                 onValueChange={value => {
                                                                     field.onChange(value);
+                                                                    onClientChange(value);
                                                                 }}
                                                             >
                                                                 <FormControl>
@@ -300,7 +301,7 @@ export function SerialEdit() {
                                                     </FormItem>
                                                 )}
                                             />
-                                                                                        {/* <FormField
+                                                {/* <FormField
                                                 control={form.control}
                                                 name="client_name" 
                                                 render={({field}) => (
@@ -352,8 +353,8 @@ export function SerialEdit() {
                                                             <SelectContent>
                                                                 {
                                                                     branchs.length ? (
-                                                                        branchs.map((branch: { id: string, name: string, uniorg: string}) => (
-                                                                            <SelectItem key={branch.id} value={branch.name}>{branch.uniorg} - {branch.name}</SelectItem>
+                                                                        branchs.map((branch: { id: string, name: string}) => (
+                                                                            <SelectItem key={branch.id} value={branch.name}>{branch.name}</SelectItem>
                                                                         ))
                                                                     ) : (
                                                                         <SelectItem value="Nenhum branch encontrado">Nenhum branch encontrado</SelectItem>

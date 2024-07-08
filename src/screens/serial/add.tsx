@@ -73,13 +73,11 @@ export function SerialAdd() {
     })
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data, 'data to send')
         try {
             const response = await ApiSerial.Insert({ data });
             if (response === 201) {                
                 navigate('/serial');
             } else {
-                
                 toast.error('Erro ao adicionar serial');
             }
         } catch (error) {
@@ -265,8 +263,8 @@ export function SerialAdd() {
                                                             <SelectContent>
                                                                 {
                                                                     branchs.length ? (
-                                                                        branchs.map((branch: { id: string, name: string, uniorg: string}) => (
-                                                                            <SelectItem key={branch.id} value={`${branch.uniorg} - ${branch.name}`}>{branch.uniorg} - {branch.name}</SelectItem>
+                                                                        branchs.map((branch: { id: string, name: string}) => (
+                                                                            <SelectItem key={branch.id} value={branch.name}>{branch.name}</SelectItem>
                                                                         ))
                                                                     ) : (
                                                                         <SelectItem value="Nenhum branch encontrado">Nenhum branch encontrado</SelectItem>
